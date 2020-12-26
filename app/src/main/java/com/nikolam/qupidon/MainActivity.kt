@@ -1,9 +1,11 @@
 package com.nikolam.qupidon
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.facebook.CallbackManager
 import com.nikolam.common.navigation.NavManager
 import com.nikolam.qupidon.databinding.ActivityMainBinding
 import org.koin.android.ext.android.inject
@@ -16,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val navManager: NavManager by inject()
+
+    //private val facebookCallBackManager: CallbackManager by inject()
 
     private fun initNavManager() {
         navManager.setOnNavEvent {

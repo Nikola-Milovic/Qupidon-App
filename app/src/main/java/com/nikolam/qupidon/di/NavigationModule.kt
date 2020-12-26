@@ -1,4 +1,4 @@
-package com.nikolam.audiobookmate.di
+package com.nikolam.qupidon.di
 
 import com.nikolam.common.navigation.NavManager
 import org.koin.dsl.module

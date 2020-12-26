@@ -18,6 +18,8 @@ private object LibraryVersion {
     const val SWIPE_REFRESH_LAYOUT  = "1.1.0"
 
     const val LOTTIE_ANIMATION = "3.5.0"
+
+    const val FACEBOOK_SDK = "8.1.0"
 }
 
 object LibraryDependency {
@@ -60,4 +62,6 @@ object LibraryDependency {
     const val SWIPE_REFRESH_LAYOUT = "androidx.swiperefreshlayout:swiperefreshlayout:${LibraryVersion.SWIPE_REFRESH_LAYOUT}"
 
     const val LOTTIE_ANIMATION = "com.airbnb.android:lottie:${LibraryVersion.LOTTIE_ANIMATION}"
+
+    const val FACEBOOK_SDK = "com.facebook.android:facebook-login:${LibraryVersion.FACEBOOK_SDK}"
 }

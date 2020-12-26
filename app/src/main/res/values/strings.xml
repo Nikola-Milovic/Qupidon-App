@@ -9,4 +9,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+
+    <!--        Facebook              -->
+    <string name="facebook_app_id" translatable="false">144315947274483</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb144315947274483</string>
+
 </resources>

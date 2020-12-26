@@ -62,7 +62,10 @@ dependencies {
     api(LibraryDependency.KOIN_ANDROID_SCOPE)
     api(LibraryDependency.KOIN_ANDROID_VIEWMODEL)
 
+    implementation(LibraryDependency.FACEBOOK_SDK)
+
     implementation(project(":common"))
+    implementation(project(":feature_login"))
 
     addTestDependencies()
 }
