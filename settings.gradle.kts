@@ -4,5 +4,7 @@ rootProject.buildFileName = "build.gradle.kts"
 
 include(
     ":app",
-    ":common"
+    ":common",
+    ":library_test_utils",
+    ":feature_login"
 )
