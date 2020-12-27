@@ -12,10 +12,10 @@ import retrofit2.Retrofit
 internal val loginModule = module {
     viewModel { LoginViewModel(get(), get()) }
     single <LoginRepository> { LoginRepositoryImpl(get())}
-    single { provideNewConfessionService(get()) }
+    single { provideLoginService(get()) }
     single { FacebookLoginUseCase(get()) }
 }
 
-fun provideNewConfessionService(retrofit: Retrofit): LoginService {
+fun provideLoginService(retrofit: Retrofit): LoginService {
     return retrofit.create(LoginService::class.java)
 }
