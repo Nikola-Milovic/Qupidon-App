@@ -1,7 +1,10 @@
 package com.nikolam.feature_login.presentation
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.nikolam.common.navigation.MainScreenDeepLinkUri
 import com.nikolam.common.navigation.NavManager
+import com.nikolam.common.navigation.NewUserDeepLinkUri
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
@@ -9,32 +12,45 @@ import com.nikolam.feature_login.domain.FacebookLoginUseCase
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-internal class LoginViewModel(private val navManager: NavManager,
-                              private val facebookLoginUseCase: FacebookLoginUseCase
-) :
-        BaseViewModel<LoginViewModel.ViewState, LoginViewModel.Action>(ViewState()) {
+internal class LoginViewModel(
+    private val navManager: NavManager,
+    private val facebookLoginUseCase: FacebookLoginUseCase
+) : BaseViewModel<LoginViewModel.ViewState, LoginViewModel.Action>(ViewState()) {
 
     override fun onReduceState(viewAction: Action) = when (viewAction) {
         Action.LoginSucess -> state
     }
 
-    fun loginFacebooKToken(token : String) {
+    fun loginFacebooKToken(token: String) {
         viewModelScope.launch {
             facebookLoginUseCase.execute(token).let {
-                Timber.d(it.toString())
+                when (it) {
+                    is FacebookLoginUseCase.Result.Success -> {
+                        if (it.response.new) {
+                            navigateToNewUser(it.response.id)
+                        } else {
+                            navigateToMainScreen(it.response.id)
+                        }
+                    }
+                }
             }
         }
     }
 
-    fun navigateTo() {
-//        val uri = Uri.parse()
-//        navManager.navigate(uri)
+    fun navigateToMainScreen(id : String) {
+        val uri = Uri.parse("$MainScreenDeepLinkUri/?id=$id")
+        navManager.navigate(uri)
+    }
+
+    fun navigateToNewUser(id : String) {
+        val uri = Uri.parse("$NewUserDeepLinkUri/?id=$id")
+        navManager.navigate(uri)
     }
 
     internal data class ViewState(
-            val isSuccess: Boolean = false,
-            val isLoading: Boolean = false,
-            val isError: Boolean = false
+        val isSuccess: Boolean = false,
+        val isLoading: Boolean = false,
+        val isError: Boolean = false
     ) : BaseViewState
 
     internal sealed class Action : BaseAction {

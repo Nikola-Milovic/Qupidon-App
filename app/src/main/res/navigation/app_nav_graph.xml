@@ -8,4 +8,26 @@
         android:id="@+id/loginFragment"
         android:name="com.nikolam.feature_login.presentation.LoginFragment"
         android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.nikolam.feature_main_screen.presentation.MainFragment"
+        android:label="MainFragment">
+        <deepLink
+            android:id="@+id/maindeeplink"
+            app:uri="qupidon://main/?id={id}" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/newUserFragment"
+        android:name="com.nikolam.feature_new_user.presentation.NewUserFragment"
+        android:label="NewUserFragment">
+        <deepLink
+            android:id="@+id/newuserdeeplink"
+            app:uri="qupidon://newUser/?id={id}" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>
