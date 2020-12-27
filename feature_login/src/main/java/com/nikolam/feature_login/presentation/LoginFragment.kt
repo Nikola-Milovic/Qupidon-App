@@ -45,14 +45,13 @@ class LoginFragment : Fragment() {
         binding.loginButton.setPermissions(listOf("email"))
         binding.loginButton.fragment = this;
 
-        Timber.d("Timber working")
-
         // Callback registration
         binding.loginButton.registerCallback(
             callbackManager,
             object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(loginResult: LoginResult?) {
                     Timber.d("Success facebook login ${loginResult?.accessToken?.token}")
+                    loginResult?.accessToken?.token?.let { viewModel.loginFacebooKToken(it) }
                 }
 
                 override fun onCancel() {
