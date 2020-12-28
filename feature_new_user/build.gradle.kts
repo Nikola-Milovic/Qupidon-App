@@ -64,6 +64,8 @@ dependencies {
     api(LibraryDependency.COROUTINES_CORE)
 
     implementation(LibraryDependency.FACEBOOK_SDK)
+    implementation(LibraryDependency.GOOGLE_LOCATION)
+    implementation(LibraryDependency.DEXTER)
 
     implementation(project(":common"))
 

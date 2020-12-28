@@ -13,13 +13,12 @@ private object LibraryVersion {
     const val ANDROID_LEGACY_SUPPORT = "1.0.0"
     //Koin
     const val KOIN = "2.2.0"
-
     const val RETROFIT = "2.9.0"
     const val SWIPE_REFRESH_LAYOUT  = "1.1.0"
-
     const val LOTTIE_ANIMATION = "3.5.0"
-
     const val FACEBOOK_SDK = "8.1.0"
+    const val GOOGLE_LOCATION = "17.1.0"
+    const val DEXTER = "6.2.2"
 }
 
 object LibraryDependency {
@@ -64,4 +63,8 @@ object LibraryDependency {
     const val LOTTIE_ANIMATION = "com.airbnb.android:lottie:${LibraryVersion.LOTTIE_ANIMATION}"
 
     const val FACEBOOK_SDK = "com.facebook.android:facebook-login:${LibraryVersion.FACEBOOK_SDK}"
+
+    const val GOOGLE_LOCATION = "com.google.android.gms:play-services-location:${LibraryVersion.GOOGLE_LOCATION}"
+
+    const val DEXTER = "com.karumi:dexter:${LibraryVersion.DEXTER}"
 }
