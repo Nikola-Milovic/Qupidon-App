@@ -26,7 +26,13 @@ internal class NewUserViewModel(
     fun saveProfile(profile : NewProfileModel) {
         viewModelScope.launch {
             saveProfileUseCase.execute(id, profile).let {
-
+                when (it) {
+                    is SaveProfileUseCase.Result.Success -> {
+                        if (it.response.status == 200) {
+                            navigateToMainScreen(id)
+                        }
+                    }
+                }
             }
         }
     }

@@ -26,6 +26,7 @@ internal class LoginViewModel(
             facebookLoginUseCase.execute(token).let {
                 when (it) {
                     is FacebookLoginUseCase.Result.Success -> {
+                        Timber.d(it.response.toString())
                         if (it.response.new) {
                             navigateToNewUser(it.response.id)
                         } else {
@@ -37,12 +38,12 @@ internal class LoginViewModel(
         }
     }
 
-    fun navigateToMainScreen(id : String) {
+    private fun navigateToMainScreen(id : String) {
         val uri = Uri.parse("$MainScreenDeepLinkUri/?id=$id")
         navManager.navigate(uri)
     }
 
-    fun navigateToNewUser(id : String) {
+    private fun navigateToNewUser(id : String) {
         val uri = Uri.parse("$NewUserDeepLinkUri/?id=$id")
         navManager.navigate(uri)
     }

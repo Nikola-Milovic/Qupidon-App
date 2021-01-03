@@ -10,5 +10,5 @@ import retrofit2.http.Query
 
 interface NewUserService {
     @POST("$BaseUserAPIUrl/profile/")
-    fun saveProfile(@Query("id") id : String, @Body profile : NewProfileModel): Call<SaveResponse>
+    fun saveProfile(@Query("id") id : String, @Body profile : NewProfileModel): Call<Void>
 }
