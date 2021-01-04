@@ -6,5 +6,6 @@ data class NewProfileModel(
     val name: String,
     val gender: String,
     val bio: String,
-    val location : LocationModel
+    val location : LocationModel,
+    val preferences : PreferenceModel
     )

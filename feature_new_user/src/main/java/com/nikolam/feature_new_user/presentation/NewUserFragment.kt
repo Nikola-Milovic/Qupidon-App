@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -20,8 +22,10 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import com.nikolam.feature_new_user.R
 import com.nikolam.feature_new_user.data.model.LocationModel
 import com.nikolam.feature_new_user.data.model.NewProfileModel
+import com.nikolam.feature_new_user.data.model.PreferenceModel
 import com.nikolam.feature_new_user.databinding.NewUserFragmentBinding
 import com.nikolam.feature_new_user.di.newUserModule
 import org.koin.android.ext.android.inject
@@ -30,6 +34,9 @@ import org.koin.core.context.unloadKoinModules
 import timber.log.Timber
 
 class NewUserFragment : Fragment() {
+
+    private val genders = arrayListOf("male", "female", "other")
+    private val genderPreference = arrayListOf("male", "female", "both", "other")
 
     private val viewModel: NewUserViewModel by inject()
 
@@ -65,13 +72,34 @@ class NewUserFragment : Fragment() {
             Timber.d("The id is $id")
         }
 
-        // TODO add gender spinner
+        val genderSpinner: Spinner = binding.genderSpinner
+        ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.gender_list,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            genderSpinner.adapter = adapter
+        }
+
+        val genderPrefSpinner: Spinner = binding.genderPreferenceSpinner
+        ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.gender_preferences_list,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            genderPrefSpinner.adapter = adapter
+        }
+
+
         binding.continueButton.setOnClickListener {
             viewModel.saveProfile(NewProfileModel(
                     name = binding.nameEditText.text.toString(),
                     bio = binding.bioEditText.text.toString(),
-                    gender = "",
-                    location = LocationModel(location.longitude, location.latitude)
+                    gender = genders[genderSpinner.selectedItemPosition],
+                    location = LocationModel(location.longitude, location.latitude),
+                    preferences = PreferenceModel(genderPreference[binding.genderPreferenceSpinner.selectedItemPosition], binding.distancePreference.text.toString().toInt())
             ))
         }
 
