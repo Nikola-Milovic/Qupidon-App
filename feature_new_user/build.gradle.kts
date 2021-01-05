@@ -66,6 +66,8 @@ dependencies {
     implementation(LibraryDependency.FACEBOOK_SDK)
     implementation(LibraryDependency.GOOGLE_LOCATION)
     implementation(LibraryDependency.DEXTER)
+    implementation(LibraryDependency.IMAGE_PICKER)
+    implementation(LibraryDependency.GLIDE)
 
     implementation(project(":common"))
 

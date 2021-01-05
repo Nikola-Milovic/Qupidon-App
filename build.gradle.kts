@@ -9,6 +9,7 @@ allprojects {
         maven("https://oss.sonatype.org/content/repositories/snapshots")
         maven("https://maven.fabric.io/public")
         maven("https://plugins.gradle.org/m2/")
+        maven ( "https://jitpack.io" )
     }
 
     plugins.apply(GradlePluginId.DETEKT)

@@ -11,14 +11,17 @@ private object LibraryVersion {
     const val LIFECYCLE = "2.2.0"
     const val LIFECYCLE_VIEW_MODEL_KTX = "2.2.0"
     const val ANDROID_LEGACY_SUPPORT = "1.0.0"
+
     //Koin
     const val KOIN = "2.2.0"
     const val RETROFIT = "2.9.0"
-    const val SWIPE_REFRESH_LAYOUT  = "1.1.0"
+    const val SWIPE_REFRESH_LAYOUT = "1.1.0"
     const val LOTTIE_ANIMATION = "3.5.0"
     const val FACEBOOK_SDK = "8.1.0"
     const val GOOGLE_LOCATION = "17.1.0"
     const val DEXTER = "6.2.2"
+    const val IMAGE_PICKER = "2.4.1"
+    const val GLIDE = "4.5.0"
 }
 
 object LibraryDependency {
@@ -67,4 +70,7 @@ object LibraryDependency {
     const val GOOGLE_LOCATION = "com.google.android.gms:play-services-location:${LibraryVersion.GOOGLE_LOCATION}"
 
     const val DEXTER = "com.karumi:dexter:${LibraryVersion.DEXTER}"
+
+    const val IMAGE_PICKER = "com.github.esafirm.android-image-picker:imagepicker:${LibraryVersion.IMAGE_PICKER}"
+    const val GLIDE = "com.github.bumptech.glide:glide:${LibraryVersion.GLIDE}"
 }

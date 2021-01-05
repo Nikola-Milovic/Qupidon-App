@@ -2,6 +2,7 @@ package com.nikolam.feature_new_user.presentation
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -14,6 +15,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.esafirm.imagepicker.features.ImagePicker
+import com.esafirm.imagepicker.features.ReturnMode
+import com.esafirm.imagepicker.model.Image
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.karumi.dexter.Dexter
@@ -33,6 +38,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import timber.log.Timber
 
+
 class NewUserFragment : Fragment() {
 
     private val genders = arrayListOf("male", "female", "other")
@@ -50,6 +56,8 @@ class NewUserFragment : Fragment() {
 
     private val stateObserver = Observer<NewUserViewModel.ViewState> {
     }
+
+    lateinit var profilePicture : Image
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,9 +108,49 @@ class NewUserFragment : Fragment() {
                     gender = genders[genderSpinner.selectedItemPosition],
                     location = LocationModel(location.longitude, location.latitude),
                     preferences = PreferenceModel(genderPreference[binding.genderPreferenceSpinner.selectedItemPosition], binding.distancePreference.text.toString().toInt())
-            ))
+            ),
+                profilePicture.path
+            )
         }
 
+        setupProfileImagePicker()
+
+        setupLocationButtonAndPermission()
+
+        viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
+
+        return view
+    }
+
+    private fun setupProfileImagePicker(){
+        binding.profilePic.setOnClickListener {
+            requestStoragePermission()
+            ImagePicker.create(this)
+                    .returnMode(ReturnMode.ALL) // set whether pick and / or camera action should return immediate result or not.
+                    .toolbarFolderTitle("Gallery") // folder selection title
+                    .toolbarImageTitle("Tap an image to select") // image selection title
+                    .includeVideo(false) // Show video on image picker
+                    .single() // single mode
+                    .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
+                    .enableLog(true) // disabling log
+                    .start(); // start image picker activity with request code
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            val image = ImagePicker.getFirstImageOrNull(data)
+            image?.let {
+                Glide.with(binding.profilePic).load(image.uri).into(binding.profilePic)
+                profilePicture = it
+            }
+        }
+
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun setupLocationButtonAndPermission(){
         binding.getLocationButton.setOnClickListener {
             Dexter.withContext(context)
                     .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -133,11 +181,30 @@ class NewUserFragment : Fragment() {
 
                     }).check();
         }
+    }
 
+    private fun requestStoragePermission(){
+        Dexter.withContext(context)
+            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        return
+                    }
+                }
 
-        viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
+                override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+                    Toast.makeText(context, "You won't be able to find any matches without your profile picture", Toast.LENGTH_LONG).show()
+                }
 
-        return view
+                override fun onPermissionRationaleShouldBeShown(
+                    p0: PermissionRequest?,
+                    p1: PermissionToken?
+                ) {
+                    p1?.continuePermissionRequest();
+                }
+
+            }).check();
     }
 
     override fun onAttach(context: Context) {
