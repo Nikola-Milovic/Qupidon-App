@@ -65,6 +65,9 @@ dependencies {
 
     implementation(LibraryDependency.FACEBOOK_SDK)
 
+    implementation(LibraryDependency.GLIDE)
+    annotationProcessor(LibraryDependency.GLIDE_COMPILER)
+
     implementation(project(":common"))
 
     addTestDependencies()

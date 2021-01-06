@@ -73,4 +73,5 @@ object LibraryDependency {
 
     const val IMAGE_PICKER = "com.github.esafirm.android-image-picker:imagepicker:${LibraryVersion.IMAGE_PICKER}"
     const val GLIDE = "com.github.bumptech.glide:glide:${LibraryVersion.GLIDE}"
+    const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${LibraryVersion.GLIDE}"
 }

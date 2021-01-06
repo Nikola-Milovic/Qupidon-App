@@ -66,8 +66,11 @@ dependencies {
     implementation(LibraryDependency.FACEBOOK_SDK)
     implementation(LibraryDependency.GOOGLE_LOCATION)
     implementation(LibraryDependency.DEXTER)
-    implementation(LibraryDependency.IMAGE_PICKER)
+    implementation(LibraryDependency.IMAGE_PICKER) {
+        this.exclude("com.github.bumptech.glide")
+    }
     implementation(LibraryDependency.GLIDE)
+    annotationProcessor(LibraryDependency.GLIDE_COMPILER)
 
     implementation(project(":common"))
 

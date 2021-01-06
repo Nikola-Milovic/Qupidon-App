@@ -67,17 +67,3 @@ class NewUserRepositoryImpl(
             })
         }
 }
-
-//  val bitmap = BitmapFactory.decodeFile(filePath)
-//            val filesDir = context.filesDir
-//            val file = File(filesDir, "image" + ".png")
-//            val bos = ByteArrayOutputStream()
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos)
-//            val bitmapdata = bos.toByteArray()
-//            val fos = FileOutputStream(file)
-//            fos.write(bitmapdata)
-//            fos.flush()
-//            fos.close()
-//            val reqFile = RequestBody.create(MediaType.parse("image/*"), file)
-//            val body = MultipartBody.Part.createFormData("upload", file.name, reqFile)
-//            val name = RequestBody.create(MediaType.parse("text/plain"), "upload")
