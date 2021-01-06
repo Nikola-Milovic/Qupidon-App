@@ -37,6 +37,7 @@ import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import timber.log.Timber
+import java.net.URL
 
 
 class NewUserFragment : Fragment() {
@@ -99,7 +100,6 @@ class NewUserFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             genderPrefSpinner.adapter = adapter
         }
-
 
         binding.continueButton.setOnClickListener {
             viewModel.saveProfile(NewProfileModel(
