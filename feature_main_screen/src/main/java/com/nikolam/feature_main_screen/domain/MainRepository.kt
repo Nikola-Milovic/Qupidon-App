@@ -5,4 +5,6 @@ import com.nikolam.feature_main_screen.data.model.ProfileModel
 
 interface MainRepository {
     suspend fun getMatches(id : String) : ArrayList<ProfileModel>
+    suspend fun likeUser(id : String, likeID : String)
+    suspend fun rejectUser(id : String, rejectID : String)
 }

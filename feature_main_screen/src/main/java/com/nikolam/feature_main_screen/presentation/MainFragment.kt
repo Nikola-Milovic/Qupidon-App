@@ -33,15 +33,16 @@ class MainFragment : Fragment() {
 
     private val stateObserver = Observer<MainViewModel.ViewState> {
         if (it.isSuccess){
-            Timber.d(it.profiles.toString())
-            val profile = it.profiles[0]
-            Glide.with(binding.profileImage)
-                    .load(profile.profilePicUrl)
-                    .apply(RequestOptions.centerCropTransform())
-                    .into(binding.profileImage)
+           viewModel.profileLiveData.observe(this, Observer { profile ->
+               Timber.d(it.toString())
+               Glide.with(binding.profileImage)
+                       .load(profile.profilePicUrl)
+                       .apply(RequestOptions.centerCropTransform())
+                       .into(binding.profileImage)
 
-            binding.nameTextView.text = profile.name
-            binding.bioTextView.text = profile.bio
+               binding.nameTextView.text = profile.name
+               binding.bioTextView.text = profile.bio
+           })
         }
     }
 
@@ -59,6 +60,15 @@ class MainFragment : Fragment() {
             viewModel.setID(id ?: "")
             Timber.d("The id is $id")
         }
+
+        binding.matchAcceptButton.setOnClickListener {
+            viewModel.likeUser()
+        }
+
+        binding.matchRejectButton.setOnClickListener {
+            viewModel.rejectUser()
+        }
+
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
         viewModel.getMatches()
