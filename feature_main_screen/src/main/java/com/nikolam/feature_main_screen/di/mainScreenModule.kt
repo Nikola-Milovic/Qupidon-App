@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 
 val mainScreenModule = module{
 
-    viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get()) }
     single <MainRepository> { MainRepositoryImpl(get())}
     single { provideMainScreenService(get()) }
     single { GetMatchesUseCase(get()) }

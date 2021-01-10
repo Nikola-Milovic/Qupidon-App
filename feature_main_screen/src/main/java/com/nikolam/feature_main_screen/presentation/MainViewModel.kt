@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nikolam.common.messaging.MessagingManager
 import com.nikolam.common.navigation.MainScreenDeepLinkUri
 import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 
 internal class MainViewModel  ( private val navManager: NavManager,
                                 private val getMatchesUseCase: GetMatchesUseCase,
-                                private val interactionUseCase: InteractionUseCase
+                                private val interactionUseCase: InteractionUseCase,
+                                private val messagingManager: MessagingManager
 ) : BaseViewModel<MainViewModel.ViewState, MainViewModel.Action>(ViewState()) {
 
     private lateinit var id : String
@@ -74,6 +76,7 @@ internal class MainViewModel  ( private val navManager: NavManager,
 
     fun setID(id : String) {
         this.id = id
+        messagingManager.connect()
     }
 
     fun navigate(id: String) {

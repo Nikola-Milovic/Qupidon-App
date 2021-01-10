@@ -1,5 +1,6 @@
 package com.nikolam.common.di
 
+import com.nikolam.common.messaging.MessagingManager
 import okhttp3.ResponseBody
 import org.koin.dsl.module
 import retrofit2.Converter
@@ -11,6 +12,8 @@ import java.lang.reflect.Type
 val networkingModule = module {
 
     single { provideRetrofit() }
+
+    single {MessagingManager()}
 
 }
 
