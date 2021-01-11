@@ -69,6 +69,10 @@ class MainFragment : Fragment() {
             viewModel.rejectUser()
         }
 
+        binding.preferences.setOnClickListener{
+            viewModel.navigateToChat()
+        }
+
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
         viewModel.getMatches()

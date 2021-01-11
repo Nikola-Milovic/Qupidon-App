@@ -68,6 +68,7 @@ dependencies {
     implementation(project(":feature_login"))
     implementation(project(":feature_main_screen"))
     implementation(project(":feature_new_user"))
+    implementation(project(":feature_messages"))
 
     addTestDependencies()
 }

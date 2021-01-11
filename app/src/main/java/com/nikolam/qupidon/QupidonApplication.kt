@@ -1,6 +1,7 @@
 package com.nikolam.qupidon
 
 import android.app.Application
+import com.nikolam.common.di.dbModule
 import com.nikolam.common.di.networkingModule
 import com.nikolam.qupidon.di.facebookModule
 import com.nikolam.qupidon.di.navigationModule
@@ -20,7 +21,7 @@ class QupidonApplication: Application() {
             androidContext(this@QupidonApplication)
         }
 
-        loadKoinModules(listOf(navigationModule, facebookModule, networkingModule))
+        loadKoinModules(listOf(navigationModule, facebookModule, networkingModule, dbModule))
         // This will initialise Timber
         if (BuildConfig.DEBUG) {
             Timber.plant(object : DebugTree() {

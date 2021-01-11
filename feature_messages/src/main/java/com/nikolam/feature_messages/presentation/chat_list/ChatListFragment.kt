@@ -1,4 +1,4 @@
-package com.nikolam.feature_messages.presentation.chat
+package com.nikolam.feature_messages.presentation.chat_list
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -9,23 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.nikolam.feature_messages.R
-import com.nikolam.feature_messages.databinding.ChatFragmentBinding
 import com.nikolam.feature_messages.databinding.ChatListFragmentBinding
-import com.nikolam.feature_messages.di.chatModule
-import com.nikolam.feature_messages.presentation.chat_list.ChatListViewModel
+import com.nikolam.feature_messages.di.chatListModule
+import com.nikolam.feature_messages.di.repoModule
 import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
+import timber.log.Timber
 
-class ChatFragment : Fragment() {
+class ChatListFragment : Fragment() {
 
-    private val viewModel: ChatViewModel by inject()
+    private val viewModel: ChatListViewModel by inject()
 
-    private var _binding: ChatFragmentBinding? = null
+    private var _binding: ChatListFragmentBinding? = null
 
     private val binding get() = _binding!!
 
-    private val stateObserver = Observer<ChatViewModel.ViewState> {
+    private val stateObserver = Observer<ChatListViewModel.ViewState> {
     }
 
     override fun onCreateView(
@@ -33,7 +33,7 @@ class ChatFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ChatFragmentBinding.inflate(inflater, container, false)
+        _binding = ChatListFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
 //        arguments?.let {
@@ -49,7 +49,7 @@ class ChatFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        loadKoinModules(chatModule)
+        loadKoinModules(arrayListOf(chatListModule, repoModule))
     }
 
     override fun onDetach() {
@@ -60,6 +60,6 @@ class ChatFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        unloadKoinModules(chatModule)
+        unloadKoinModules(chatListModule)
     }
 }

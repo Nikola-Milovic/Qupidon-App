@@ -30,4 +30,15 @@
             android:name="id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.nikolam.feature_messages.presentation.chat_list.ChatListFragment"
+        android:label="ChatListFragment">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="qupidon://chat/?id={id}" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>

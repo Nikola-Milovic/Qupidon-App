@@ -63,6 +63,11 @@ dependencies {
     api(LibraryDependency.COROUTINES_ANDROID)
     api(LibraryDependency.COROUTINES_CORE)
 
+    implementation(LibraryDependency.ROOM)
+    implementation(LibraryDependency.ROOM_KTX)
+    kapt(LibraryDependency.ROOM_COMPILER)
+
+
     implementation(project(":common"))
 
     addTestDependencies()

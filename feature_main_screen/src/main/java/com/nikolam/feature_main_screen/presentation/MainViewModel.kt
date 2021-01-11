@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nikolam.common.messaging.MessagingManager
+import com.nikolam.common.navigation.ChatDeepLinkUri
 import com.nikolam.common.navigation.MainScreenDeepLinkUri
 import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
@@ -14,7 +15,9 @@ import com.nikolam.common.viewmodel.BaseViewState
 import com.nikolam.feature_main_screen.data.model.ProfileModel
 import com.nikolam.feature_main_screen.domain.GetMatchesUseCase
 import com.nikolam.feature_main_screen.domain.InteractionUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 internal class MainViewModel  ( private val navManager: NavManager,
                                 private val getMatchesUseCase: GetMatchesUseCase,
@@ -49,6 +52,7 @@ internal class MainViewModel  ( private val navManager: NavManager,
             getMatchesUseCase.execute(id).let {
                 when(it) {
                     is GetMatchesUseCase.Result.Success -> {
+                        Timber.d(it.users.toString())
                         sendAction(Action.LoadingMatchesSuccess)
                         profiles.addAll(it.users)
                         val profile = profiles[0]
@@ -61,10 +65,11 @@ internal class MainViewModel  ( private val navManager: NavManager,
     }
 
     fun likeUser() {
-        viewModelScope.launch {
-            interactionUseCase.likeUser(id, profileLiveData.value!!.id)
-            moveToNextUser()
+        val likedID = profiles[currentProfileIndex].id
+        viewModelScope.launch(Dispatchers.IO) {
+            interactionUseCase.likeUser(id, likedID)
         }
+        moveToNextUser()
     }
 
     fun rejectUser() {
@@ -79,11 +84,10 @@ internal class MainViewModel  ( private val navManager: NavManager,
         messagingManager.connect(id)
     }
 
-    fun navigate(id: String) {
-        val uri = Uri.parse("$MainScreenDeepLinkUri/?id=$id")
+    fun navigateToChat() {
+        val uri = Uri.parse("$ChatDeepLinkUri/?id=$id")
         navManager.navigate(uri)
     }
-
 
     private fun moveToNextUser(){
         currentProfileIndex++

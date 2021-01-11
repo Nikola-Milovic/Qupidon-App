@@ -68,6 +68,10 @@ dependencies {
     implementation(LibraryDependency.GLIDE)
     annotationProcessor(LibraryDependency.GLIDE_COMPILER)
 
+    implementation(LibraryDependency.ROOM)
+    implementation(LibraryDependency.ROOM_KTX)
+    kapt(LibraryDependency.ROOM_COMPILER)
+
     implementation(project(":common"))
 
     addTestDependencies()

@@ -23,6 +23,8 @@ private object LibraryVersion {
     const val IMAGE_PICKER = "2.4.1"
     const val GLIDE = "4.5.0"
     const val GSON = "2.8.6"
+
+    const val ROOM = "2.2.6"
 }
 
 
@@ -78,4 +80,8 @@ object LibraryDependency {
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${LibraryVersion.GLIDE}"
 
     const val GSON = "com.google.code.gson:gson:${LibraryVersion.GSON}"
+
+    const val ROOM = "androidx.room:room-runtime:${LibraryVersion.ROOM}"
+    const val ROOM_COMPILER = "androidx.room:room-compiler:${LibraryVersion.ROOM}"
+    const val ROOM_KTX = "androidx.room:room-ktx:${LibraryVersion.ROOM}"
 }

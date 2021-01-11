@@ -1,6 +1,7 @@
 package com.nikolam.feature_main_screen.data
 
 import com.nikolam.common.BaseMatchAPIUrl
+import com.nikolam.feature_main_screen.data.model.LikeResponse
 import com.nikolam.feature_main_screen.data.model.LikedUser
 import com.nikolam.feature_main_screen.data.model.ProfileModel
 import com.nikolam.feature_main_screen.data.model.RejectedUser
@@ -14,7 +15,7 @@ interface MainScreenService {
     fun getMatches(@Query("id") id: String): Call<ArrayList<ProfileModel>>
 
     @POST("$BaseMatchAPIUrl/like/")
-    fun likeUser(@Query("id") id: String, @Body requestBody: LikedUser) : Call<Void>
+    fun likeUser(@Query("id") id: String, @Body requestBody: LikedUser) : Call<LikeResponse>
 
     @POST("$BaseMatchAPIUrl/reject/")
     fun rejectUser(@Query("id") id : String, @Body requestBody: RejectedUser) : Call<Void>

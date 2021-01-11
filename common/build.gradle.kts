@@ -15,6 +15,13 @@ android {
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas".toString()
+            }
+        }
+
     }
     buildTypes {
         getByName("release") {
@@ -46,6 +53,10 @@ dependencies {
     api(LibraryDependency.RETROFIT)
     api(LibraryDependency.GSON_CONVERTER)
     api(LibraryDependency.GSON)
+
+    implementation(LibraryDependency.ROOM)
+    implementation(LibraryDependency.ROOM_KTX)
+    kapt(LibraryDependency.ROOM_COMPILER)
 
     implementation ("io.socket:socket.io-client:2.0.0") {
         exclude(group = "org.json", module = "json")
