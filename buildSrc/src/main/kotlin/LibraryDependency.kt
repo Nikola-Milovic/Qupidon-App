@@ -22,7 +22,9 @@ private object LibraryVersion {
     const val DEXTER = "6.2.2"
     const val IMAGE_PICKER = "2.4.1"
     const val GLIDE = "4.5.0"
+    const val GSON = "2.8.6"
 }
+
 
 object LibraryDependency {
     const val KOTLIN = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${CoreVersion.KOTLIN}"
@@ -74,4 +76,6 @@ object LibraryDependency {
     const val IMAGE_PICKER = "com.github.esafirm.android-image-picker:imagepicker:${LibraryVersion.IMAGE_PICKER}"
     const val GLIDE = "com.github.bumptech.glide:glide:${LibraryVersion.GLIDE}"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${LibraryVersion.GLIDE}"
+
+    const val GSON = "com.google.code.gson:gson:${LibraryVersion.GSON}"
 }

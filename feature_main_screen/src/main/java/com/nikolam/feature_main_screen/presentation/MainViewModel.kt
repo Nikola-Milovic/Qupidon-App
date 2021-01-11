@@ -76,7 +76,7 @@ internal class MainViewModel  ( private val navManager: NavManager,
 
     fun setID(id : String) {
         this.id = id
-        messagingManager.connect()
+        messagingManager.connect(id)
     }
 
     fun navigate(id: String) {

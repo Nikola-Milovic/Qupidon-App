@@ -2,6 +2,7 @@ plugins {
     id(GradlePluginId.ANDROID_LIBRARY)
     id(GradlePluginId.KOTLIN_ANDROID)
     id(GradlePluginId.KOTLIN_KAPT)
+    id("kotlin-android")
 }
 
 android {
@@ -32,24 +33,37 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
+        viewBinding = true
+    }
+
+    testOptions {
+        animationsDisabled = true
     }
 }
-
 dependencies {
+    api(LibraryDependency.ANDROID_LEGACY_SUPPORT)
+    api(LibraryDependency.LIFECYCLE_EXTENSIONS)
+    api(LibraryDependency.LIFECYCLE_VIEW_MODEL_KTX)
+
     api(LibraryDependency.TIMBER)
     api(LibraryDependency.NAVIGATION_FRAGMENT_KTX)
     api(LibraryDependency.NAVIGATION_UI_KTX)
+
+    api(LibraryDependency.RECYCLER_VIEW)
+    api(LibraryDependency.MATERIAL)
+    api(LibraryDependency.FRAGMENT_KTX)
+
+    api(LibraryDependency.SUPPORT_CONSTRAINT_LAYOUT)
+
     api(LibraryDependency.KOIN_ANDROID)
     api(LibraryDependency.KOIN_ANDROID_EXTENSION)
     api(LibraryDependency.KOIN_ANDROID_SCOPE)
-    api(LibraryDependency.RETROFIT)
-    api(LibraryDependency.GSON_CONVERTER)
-    api(LibraryDependency.GSON)
+    api(LibraryDependency.KOIN_ANDROID_VIEWMODEL)
 
-    implementation ("io.socket:socket.io-client:2.0.0") {
-        exclude(group = "org.json", module = "json")
-    }
+    api(LibraryDependency.COROUTINES_ANDROID)
+    api(LibraryDependency.COROUTINES_CORE)
+
+    implementation(project(":common"))
 
     addTestDependencies()
 }
