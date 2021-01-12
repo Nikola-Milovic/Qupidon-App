@@ -36,6 +36,18 @@
         android:label="ChatListFragment">
         <deepLink
             android:id="@+id/deepLink"
+            app:uri="qupidon://messages/?id={id}" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.nikolam.feature_messages.presentation.chat.ChatFragment"
+        android:label="chat_fragment"
+        tools:layout="@layout/chat_fragment">
+        <deepLink
+            android:id="@+id/deepLink"
             app:uri="qupidon://chat/?id={id}" />
         <argument
             android:name="id"

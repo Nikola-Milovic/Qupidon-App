@@ -1,8 +1,10 @@
 package com.nikolam.feature_messages.presentation.chat_list
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
@@ -11,7 +13,8 @@ import com.nikolam.feature_messages.domain.models.UserDomainModel
 import kotlinx.coroutines.launch
 
 internal class ChatListViewModel(
-    private val getUsersUseCase: GetUsersUseCase
+    private val getUsersUseCase: GetUsersUseCase,
+    private val navManager: NavManager
 ) : BaseViewModel<ChatListViewModel.ViewState, ChatListViewModel.Action>(ViewState()) {
 
     private lateinit var id: String
@@ -43,10 +46,10 @@ internal class ChatListViewModel(
         }
     }
 
-//    fun navigate(id: String) {
-//        val uri = Uri.parse("$MainScreenDeepLinkUri/?id=$id")
-//        navManager.navigate(uri)
-//    }
+    fun navigateToChat(id: String) {
+        val uri = Uri.parse("qupidon://chat/?id=$id")
+        navManager.navigate(uri)
+    }
 
     internal data class ViewState(
         val isSuccess: Boolean = false,

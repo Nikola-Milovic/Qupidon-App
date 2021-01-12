@@ -7,14 +7,14 @@ import com.nikolam.feature_messages.data.models.ChatUserModel
 import com.nikolam.feature_messages.databinding.ChatListItemBinding
 import com.nikolam.feature_messages.domain.models.UserDomainModel
 
-class ChatListAdapter  :
+class ChatListAdapter (private val listener : ChatListItemClickListener) :
     RecyclerView.Adapter<ChatListAdapter.ChatViewHolder>() {
 
     override fun onBindViewHolder(holder: ChatListAdapter.ChatViewHolder, position: Int) {
 
         val data = data[position]
         try {
-            holder.bind(data)
+            holder.bind(data, listener)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -42,9 +42,12 @@ class ChatListAdapter  :
         private val itemBinding: ChatListItemBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(data: UserDomainModel) {
+        fun bind(data: UserDomainModel, listener: ChatListItemClickListener) {
             itemBinding.apply {
                 name.text = data.name
+            }
+            itemBinding.root.setOnClickListener {
+                listener.onChatItemClicked(data.userID)
             }
         }
     }

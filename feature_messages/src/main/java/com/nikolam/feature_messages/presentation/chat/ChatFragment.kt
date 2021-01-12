@@ -16,6 +16,7 @@ import com.nikolam.feature_messages.presentation.chat_list.ChatListViewModel
 import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
+import timber.log.Timber
 
 class ChatFragment : Fragment() {
 
@@ -36,11 +37,11 @@ class ChatFragment : Fragment() {
         _binding = ChatFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
-//        arguments?.let {
-//            val id = it.getString("id")
-//            viewModel.setID(id ?: "")
-//            Timber.d("The id is $id")
-//        }
+        arguments?.let {
+            val id = it.getString("id")
+          //  viewModel.setID(id ?: "")
+            Timber.d("The chat id is $id")
+        }
 
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 

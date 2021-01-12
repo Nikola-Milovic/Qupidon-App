@@ -19,7 +19,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import timber.log.Timber
 
-class ChatListFragment : Fragment() {
+class ChatListFragment : Fragment(), ChatListItemClickListener {
 
     private val viewModel: ChatListViewModel by inject()
 
@@ -48,7 +48,7 @@ class ChatListFragment : Fragment() {
 //            viewModel.setID(id ?: "")
 //            Timber.d("The id is $id")
 //        }
-        chatListAdapter = ChatListAdapter()
+        chatListAdapter = ChatListAdapter(this)
 
         binding.chatListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.chatListRecyclerView.addItemDecoration(
@@ -80,5 +80,10 @@ class ChatListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
         unloadKoinModules(chatListModule)
+    }
+
+    override fun onChatItemClicked(id: String) {
+        Timber.d("Clicked $id")
+        viewModel.navigateToChat(id)
     }
 }
