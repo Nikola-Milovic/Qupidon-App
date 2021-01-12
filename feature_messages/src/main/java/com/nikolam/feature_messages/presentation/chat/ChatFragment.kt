@@ -39,8 +39,12 @@ class ChatFragment : Fragment() {
 
         arguments?.let {
             val id = it.getString("id")
-          //  viewModel.setID(id ?: "")
+            viewModel.setID(id ?: "")
             Timber.d("The chat id is $id")
+        }
+
+        binding.sendMessageButton.setOnClickListener {
+            viewModel.sendMessage(binding.messageEditText.text.toString())
         }
 
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)

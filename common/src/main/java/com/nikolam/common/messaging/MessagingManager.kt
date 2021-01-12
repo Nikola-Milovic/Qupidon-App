@@ -1,6 +1,7 @@
 package com.nikolam.common.messaging
 
 import com.google.gson.Gson
+import com.nikolam.common.db.models.MessageDataModel
 import io.socket.client.Ack
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -26,29 +27,38 @@ class MessagingManager {
         connected = true
 
         this.userID = userID
-        socket.connect()
         socket.on(Socket.EVENT_CONNECT, onConnect);
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectionError);
+        socket.connect()
     }
 
     private val onConnect: Emitter.Listener = Emitter.Listener {
         Timber.d("""Socket id is ${socket.id()}""")
-//        socket.emit("onUserConnected", gson.toJson(UserConnectedMessage(userID, socket.id())), object : Ack {
-//            override fun call(vararg args: Any?) {
-//                Timber.d("Emit is okay")
-//            }
-//        })
-        socket.emit("onUserConnected", "1")
+        socket.emit("onUserConnected", gson.toJson(UserConnectedMessage(userID, socket.id())), object : Ack {
+            override fun call(vararg args: Any?) {
+                Timber.d("Emit is okay")
+            }
+        })
     }
 
     private val onConnectionError: Emitter.Listener = Emitter.Listener {
         Timber.d("""Connection error is $it""")
     }
 
-    fun SendMessage(contents : String) {
-        socket.emit("onMessageSent", contents)
+    fun sendMessage(sendID : String, contents : String) {
+        socket.emit("onMessageSent", gson.toJson(SendMessageMessage(userID, sendID, contents)))
+    }
+
+    fun disconnect() {
+        socket.emit("onUserDisconnected", gson.toJson(UserDisconnectedMessage(userID)), object : Ack {
+            override fun call(vararg args: Any?) {
+                Timber.d("Emit is okay")
+            }
+        })
     }
 
     private data class UserConnectedMessage(val user_id : String, val socket_id : String)
+    private data class SendMessageMessage(val sender_id : String, val receiver_id : String, val contents: String)
+    private data class UserDisconnectedMessage(val user_id : String)
 
 }

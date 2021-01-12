@@ -2,24 +2,24 @@ package com.nikolam.feature_messages.presentation.chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nikolam.common.messaging.MessagingManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
-import com.nikolam.feature_messages.presentation.chat_list.ChatListViewModel
+import com.nikolam.feature_messages.domain.models.MessageDomainModel
 import kotlinx.coroutines.launch
 
-internal class ChatViewModel () : BaseViewModel<ChatViewModel.ViewState, ChatViewModel.Action>(ViewState()) {
+internal class ChatViewModel (
+    private val messageManager: MessagingManager
+        ) : BaseViewModel<ChatViewModel.ViewState, ChatViewModel.Action>(ViewState()) {
 
     private lateinit var id : String
 
-    private val _profileLiveData: MutableLiveData<String> = MutableLiveData()
-    val profileLiveData: LiveData<String>
-        get() = _profileLiveData
+    private val _messageLiveData: MutableLiveData<ArrayList<MessageDomainModel>> = MutableLiveData()
+    val messageLiveData: LiveData<ArrayList<MessageDomainModel>>
+        get() = _messageLiveData
 
-    private val profiles = arrayListOf<String>()
-    private var currentProfileIndex = 0
 
     override fun onReduceState(viewAction: Action) = when (viewAction) {
         is Action.LoadingMatchesSuccess ->state.copy(
@@ -34,9 +34,17 @@ internal class ChatViewModel () : BaseViewModel<ChatViewModel.ViewState, ChatVie
         )
     }
 
-    fun getChats() {
+    fun setID(id : String) {
+        this.id = id
+    }
+
+    fun getMessages() {
         viewModelScope.launch {
         }
+    }
+
+    fun sendMessage(text : String){
+        messageManager.sendMessage(id , text)
     }
 
 //    fun navigate(id: String) {
