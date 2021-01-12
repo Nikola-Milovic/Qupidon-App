@@ -3,26 +3,26 @@ package com.nikolam.feature_main_screen.presentation
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nikolam.common.messaging.MessagingManager
 import com.nikolam.common.navigation.ChatDeepLinkUri
-import com.nikolam.common.navigation.MainScreenDeepLinkUri
 import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
 import com.nikolam.feature_main_screen.data.model.ProfileModel
 import com.nikolam.feature_main_screen.domain.GetMatchesUseCase
+import com.nikolam.feature_main_screen.domain.GetProfilesUseCase
 import com.nikolam.feature_main_screen.domain.InteractionUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-internal class MainViewModel  ( private val navManager: NavManager,
-                                private val getMatchesUseCase: GetMatchesUseCase,
-                                private val interactionUseCase: InteractionUseCase,
-                                private val messagingManager: MessagingManager
+internal class MainViewModel  (private val navManager: NavManager,
+                               private val getProfilesUseCase: GetProfilesUseCase,
+                               private val interactionUseCase: InteractionUseCase,
+                               private val getMatchesUseCase: GetMatchesUseCase,
+                               private val messagingManager: MessagingManager
 ) : BaseViewModel<MainViewModel.ViewState, MainViewModel.Action>(ViewState()) {
 
     private lateinit var id : String
@@ -47,20 +47,26 @@ internal class MainViewModel  ( private val navManager: NavManager,
         )
     }
 
-    fun getMatches() {
+    fun getProfiles() {
         viewModelScope.launch {
-            getMatchesUseCase.execute(id).let {
+            getProfilesUseCase.execute(id).let {
                 when(it) {
-                    is GetMatchesUseCase.Result.Success -> {
+                    is GetProfilesUseCase.Result.Success -> {
                         Timber.d(it.users.toString())
                         sendAction(Action.LoadingMatchesSuccess)
                         profiles.addAll(it.users)
                         val profile = profiles[0]
                         _profileLiveData.postValue(profile)
                     }
-                    is GetMatchesUseCase.Result.Error -> sendAction(Action.LoadingMatchesFailure)
+                    is GetProfilesUseCase.Result.Error -> sendAction(Action.LoadingMatchesFailure)
                 }
             }
+        }
+    }
+
+    fun getMatches() {
+        viewModelScope.launch {
+            getMatchesUseCase.execute(id)
         }
     }
 

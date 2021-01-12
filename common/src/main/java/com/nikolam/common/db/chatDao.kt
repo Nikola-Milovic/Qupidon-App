@@ -2,6 +2,7 @@ package com.nikolam.common.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.nikolam.common.db.models.MessageDataModel
 import com.nikolam.common.db.models.UserDataModel
@@ -18,6 +19,6 @@ interface ChatDao {
     @Insert
     suspend fun addMessage(message : MessageDataModel)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addMatch(user : UserDataModel)
 }

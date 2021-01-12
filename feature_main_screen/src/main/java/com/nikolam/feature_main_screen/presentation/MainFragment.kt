@@ -1,21 +1,14 @@
 package com.nikolam.feature_main_screen.presentation
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Location
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.nikolam.feature_main_screen.R
 import com.nikolam.feature_main_screen.databinding.MainFragmentBinding
 import com.nikolam.feature_main_screen.di.mainScreenModule
 import org.koin.android.ext.android.inject
@@ -74,6 +67,8 @@ class MainFragment : Fragment() {
         }
 
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
+
+        viewModel.getProfiles()
 
         viewModel.getMatches()
 

@@ -2,16 +2,10 @@ package com.nikolam.feature_main_screen.data
 
 
 import com.nikolam.common.db.AppDatabase
-import com.nikolam.common.db.models.UserDataModel
-import com.nikolam.feature_main_screen.data.model.LikeResponse
 import com.nikolam.feature_main_screen.data.model.LikedUser
 import com.nikolam.feature_main_screen.data.model.ProfileModel
 import com.nikolam.feature_main_screen.data.model.RejectedUser
 import com.nikolam.feature_main_screen.domain.MainRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,9 +20,9 @@ class MainRepositoryImpl(
     private val db: AppDatabase
 ) :
     MainRepository {
-    override suspend fun getMatches(id: String): ArrayList<ProfileModel> =
+    override suspend fun getProfiles(id: String): ArrayList<ProfileModel> =
         suspendCoroutine { cont ->
-            val call = mainService.getMatches(id)
+            val call = mainService.getProfiles(id)
             call.enqueue(object : Callback<ArrayList<ProfileModel>> {
                 override fun onResponse(
                     call: Call<ArrayList<ProfileModel>>,
@@ -48,34 +42,18 @@ class MainRepositoryImpl(
             })
         }
 
-    override suspend fun likeUser(id: String, likeID: String) =
-        withContext(Dispatchers.IO + NonCancellable) {
+    override suspend fun likeUser(id: String, likeID: String) {
             Timber.d("LIKED ID IS $likeID")
             val likedUser = LikedUser(likeID)
-            mainService.likeUser(id, likedUser).enqueue(object : Callback<LikeResponse> {
+            mainService.likeUser(id, likedUser).enqueue(object : Callback<Void> {
                 override fun onResponse(
-                    call: Call<LikeResponse>,
-                    response: Response<LikeResponse>
+                        call: Call<Void>,
+                        response: Response<Void>
                 ) {
-                    Timber.d("Response is ${response.body()}")
-                    if (response.code() == 200) {
-                        if (response.body() != null) {
-                            Timber.d("MATCHED ID IS ${response.body()!!.matched_id}")
-                            launch {
-                                db.chatDao().addMatch(
-                                    UserDataModel(
-                                        response.body()!!.matched_id,
-                                        "Nikolina"
-                                    )
-                                )
-                                Timber.d("Added new match")
-                            }
 
-                        }
-                    }
                 }
 
-                override fun onFailure(call: Call<LikeResponse>, t: Throwable) {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
                     Timber.d("Failure is $t")
                 }
 
@@ -94,4 +72,3 @@ class MainRepositoryImpl(
         })
     }
 }
-

@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikolam.feature_messages.R
 import com.nikolam.feature_messages.databinding.ChatListFragmentBinding
 import com.nikolam.feature_messages.di.chatListModule
@@ -25,7 +27,12 @@ class ChatListFragment : Fragment() {
 
     private val binding get() = _binding!!
 
+    private lateinit var chatListAdapter: ChatListAdapter
+
     private val stateObserver = Observer<ChatListViewModel.ViewState> {
+        if (it.isSuccess){
+            chatListAdapter.newData(it.chats)
+        }
     }
 
     override fun onCreateView(
@@ -41,9 +48,21 @@ class ChatListFragment : Fragment() {
 //            viewModel.setID(id ?: "")
 //            Timber.d("The id is $id")
 //        }
+        chatListAdapter = ChatListAdapter()
+
+        binding.chatListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.chatListRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+
+        binding.chatListRecyclerView.adapter = chatListAdapter
 
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
+        viewModel.getChats()
         return view
     }
 
