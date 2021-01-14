@@ -21,7 +21,7 @@ private object LibraryVersion {
     const val GOOGLE_LOCATION = "17.1.0"
     const val DEXTER = "6.2.2"
     const val IMAGE_PICKER = "2.4.1"
-    const val GLIDE = "4.5.0"
+    const val GLIDE = "4.9.0"
     const val GSON = "2.8.6"
 
     const val ROOM = "2.2.6"

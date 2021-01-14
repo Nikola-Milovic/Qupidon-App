@@ -29,6 +29,7 @@ class MessagingManager {
         this.userID = userID
         socket.on(Socket.EVENT_CONNECT, onConnect);
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectionError);
+        socket.on("onMessageReceived", onMessageReceived);
         socket.connect()
     }
 
@@ -43,6 +44,10 @@ class MessagingManager {
 
     private val onConnectionError: Emitter.Listener = Emitter.Listener {
         Timber.d("""Connection error is $it""")
+    }
+
+    private val onMessageReceived: Emitter.Listener = Emitter.Listener {
+        Timber.d("""On Message Received is $it""")
     }
 
     fun sendMessage(sendID : String, contents : String) {
