@@ -14,6 +14,7 @@ import com.nikolam.feature_main_screen.data.model.ProfileModel
 import com.nikolam.feature_main_screen.domain.GetMatchesUseCase
 import com.nikolam.feature_main_screen.domain.GetProfilesUseCase
 import com.nikolam.feature_main_screen.domain.InteractionUseCase
+import com.nikolam.feature_main_screen.domain.SaveTokenUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,6 +23,7 @@ internal class MainViewModel  (private val navManager: NavManager,
                                private val getProfilesUseCase: GetProfilesUseCase,
                                private val interactionUseCase: InteractionUseCase,
                                private val getMatchesUseCase: GetMatchesUseCase,
+                               private val saveTokenUseCase: SaveTokenUseCase,
                                private val messagingManager: MessagingManager
 ) : BaseViewModel<MainViewModel.ViewState, MainViewModel.Action>(ViewState()) {
 
@@ -67,6 +69,12 @@ internal class MainViewModel  (private val navManager: NavManager,
     fun getMatches() {
         viewModelScope.launch {
             getMatchesUseCase.execute(id)
+        }
+    }
+
+    fun saveFCMToken(token : String) {
+        viewModelScope.launch {
+            saveTokenUseCase.execute(id, token)
         }
     }
 

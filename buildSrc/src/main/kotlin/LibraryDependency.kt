@@ -25,6 +25,9 @@ private object LibraryVersion {
     const val GSON = "2.8.6"
 
     const val ROOM = "2.2.6"
+    const val FIREBASE_BOM = "26.2.0"
+
+    const val VOLLEY = "1.1.1"
 }
 
 
@@ -84,4 +87,13 @@ object LibraryDependency {
     const val ROOM = "androidx.room:room-runtime:${LibraryVersion.ROOM}"
     const val ROOM_COMPILER = "androidx.room:room-compiler:${LibraryVersion.ROOM}"
     const val ROOM_KTX = "androidx.room:room-ktx:${LibraryVersion.ROOM}"
+
+    const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging-ktx"
+    const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
+
+    const val VOLLEY = "com.android.volley:volley:${LibraryVersion.VOLLEY}"
+}
+
+object PlatformDependency {
+    const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${LibraryVersion.FIREBASE_BOM}"
 }

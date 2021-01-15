@@ -3,6 +3,7 @@ plugins {
     id(GradlePluginId.KOTLIN_ANDROID)
     id(GradlePluginId.KOTLIN_KAPT)
     id(GradlePluginId.SAFE_ARGS)
+    id(GradlePluginId.GOOGLE_SERVICES)
     id("kotlin-android")
 }
 
@@ -63,6 +64,10 @@ dependencies {
     api(LibraryDependency.KOIN_ANDROID_VIEWMODEL)
 
     implementation(LibraryDependency.FACEBOOK_SDK)
+    implementation(platform(PlatformDependency.FIREBASE_BOM))
+    implementation(LibraryDependency.FIREBASE_MESSAGING)
+    implementation(LibraryDependency.FIREBASE_ANALYTICS)
+    implementation(LibraryDependency.VOLLEY)
 
     implementation(project(":common"))
     implementation(project(":feature_login"))

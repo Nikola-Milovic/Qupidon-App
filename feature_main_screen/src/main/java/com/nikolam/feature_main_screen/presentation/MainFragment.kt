@@ -1,6 +1,7 @@
 package com.nikolam.feature_main_screen.presentation
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -52,6 +53,14 @@ class MainFragment : Fragment() {
             val id = it.getString("id")
             viewModel.setID(id ?: "")
             Timber.d("The id is $id")
+        }
+
+        activity?.getSharedPreferences("FirebaseToken", MODE_PRIVATE)?.apply {
+            val token = this.getString("token", "")
+            Timber.d("Token from preference is $token")
+            if (!token.isNullOrEmpty()){
+                viewModel.saveFCMToken(token)
+            }
         }
 
         binding.matchAcceptButton.setOnClickListener {

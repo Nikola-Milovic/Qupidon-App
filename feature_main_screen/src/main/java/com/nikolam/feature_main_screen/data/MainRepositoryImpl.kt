@@ -6,6 +6,9 @@ import com.nikolam.feature_main_screen.data.model.LikedUser
 import com.nikolam.feature_main_screen.data.model.ProfileModel
 import com.nikolam.feature_main_screen.data.model.RejectedUser
 import com.nikolam.feature_main_screen.domain.MainRepository
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +20,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class MainRepositoryImpl(
     private val mainService: MainScreenService,
+    private val mainChatService: MainScreenChatService,
     private val db: AppDatabase
 ) :
     MainRepository {
@@ -47,8 +51,8 @@ class MainRepositoryImpl(
             val likedUser = LikedUser(likeID)
             mainService.likeUser(id, likedUser).enqueue(object : Callback<Void> {
                 override fun onResponse(
-                        call: Call<Void>,
-                        response: Response<Void>
+                    call: Call<Void>,
+                    response: Response<Void>
                 ) {
 
                 }
@@ -64,6 +68,24 @@ class MainRepositoryImpl(
         val rejectedUser = RejectedUser(rejectID)
         mainService.rejectUser(id, rejectedUser).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+            }
+
+        })
+    }
+
+    override suspend fun saveFCMToken(id: String, token: String) {
+        val stringJson = JSONObject()
+        stringJson.put("token", token)
+
+        val data: RequestBody = RequestBody.create(MediaType.parse("application/json"), stringJson.toString())
+
+
+        mainChatService.saveFCMToken(id, data).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Timber.d("Response to token is $response")
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {

@@ -20,6 +20,9 @@ object GradlePluginId {
     const val SAFE_ARGS = "androidx.navigation.safeargs.kotlin"
 
     const val KOTLIN_KAPT = "kotlin-kapt"
+
+    const val GOOGLE_SERVICES = "com.google.gms.google-services"
+
     const val SERIALIZATION = "kotlinx-serialization"
 }
 

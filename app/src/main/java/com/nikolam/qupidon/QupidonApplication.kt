@@ -1,6 +1,10 @@
 package com.nikolam.qupidon
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import com.nikolam.common.di.dbModule
 import com.nikolam.common.di.networkingModule
 import com.nikolam.qupidon.di.facebookModule
@@ -22,6 +26,9 @@ class QupidonApplication: Application() {
         }
 
         loadKoinModules(listOf(navigationModule, facebookModule, networkingModule, dbModule))
+
+        createNotificationChannel()
+
         // This will initialise Timber
         if (BuildConfig.DEBUG) {
             Timber.plant(object : DebugTree() {
@@ -29,6 +36,23 @@ class QupidonApplication: Application() {
                     super.log(priority, "qupidon_$tag", message, t)
                 }
             })
+        }
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+         //   val name = getString("R.string.channel_name")
+           // val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("messages", "message_notifications", importance).apply {
+                description = "New message notification"
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 

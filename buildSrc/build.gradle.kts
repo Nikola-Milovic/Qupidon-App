@@ -31,10 +31,14 @@ object PluginsVersions {
     const val DETEKT = "1.9.1"
     const val GRAPH_GENERATOR = "0.6.0-SNAPSHOT"
     const val KOTLIN = "1.4.20"
+    const val GOOGLE_SERVICES = "4.3.4"
 }
 
 dependencies {
     implementation("com.android.tools.build:gradle:${PluginsVersions.GRADLE_ANDROID}")
+
+    implementation("com.google.gms:google-services:${PluginsVersions.GOOGLE_SERVICES}")
+
     implementation("com.github.ben-manes:gradle-versions-plugin:${PluginsVersions.GRADLE_VERSIONS}")
 
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${PluginsVersions.KOTLIN}")

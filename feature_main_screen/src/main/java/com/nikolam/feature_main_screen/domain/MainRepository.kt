@@ -7,4 +7,5 @@ interface MainRepository {
     suspend fun getProfiles(id : String) : ArrayList<ProfileModel>
     suspend fun likeUser(id : String, likeID : String)
     suspend fun rejectUser(id : String, rejectID : String)
+    suspend fun saveFCMToken(id : String, token : String)
 }
