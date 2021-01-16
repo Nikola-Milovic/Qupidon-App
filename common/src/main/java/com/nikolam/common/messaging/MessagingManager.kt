@@ -16,9 +16,12 @@ import timber.log.Timber
 import java.net.URI
 import java.util.*
 
-class MessagingManager(private val db : AppDatabase) {
+class MessagingManager(private val db : AppDatabase,
+private val messagingService: MessagingService) {
 
     private var connected = false
+
+    private var disconnected = false
 
     private lateinit var socket: Socket
 
@@ -30,17 +33,28 @@ class MessagingManager(private val db : AppDatabase) {
 
     fun connect(userID: String) {
         if (connected) return
+
         socket = IO.socket(uri)
-        connected = true
 
         this.userID = userID
         socket.on(Socket.EVENT_CONNECT, onConnect);
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectionError);
         socket.on("onMessageReceived", onMessageReceived);
         socket.connect()
+
+        getUnreadMessages()
     }
 
     fun disconnect() {
+        if (!connected) {
+            return
+        }
+
+        Timber.d("Disconnect")
+
+        disconnected = true
+        connected = false
+
         socket.emit(
             "onUserDisconnected",
             gson.toJson(UserDisconnectedMessage(userID)),
@@ -49,14 +63,42 @@ class MessagingManager(private val db : AppDatabase) {
                     Timber.d("Emit is okay")
                 }
             })
+
+        socket.disconnect()
     }
+
+    fun reconnect(){
+        Timber.d("Reconnect attemp")
+        if (connected) return
+        if (!disconnected) return
+
+        Timber.d("Reconnect")
+
+        disconnected = false
+
+        socket.connect()
+    }
+
+    fun getUnreadMessages() {
+        GlobalScope.launch {
+            messagingService.getUnreadMessages(userID).forEach {
+                Timber.d("Add new unread message")
+                db.chatDao().addMessage(MessageDataModel(null, contents = it.content, senderID = it.sender_id, receiverID = userID, false, Date().time))
+            }
+        }
+    }
+
 
     fun getID() : String {
         return userID
     }
 
     private val onConnect: Emitter.Listener = Emitter.Listener {
-        Timber.d("""Socket id is ${socket.id()}""")
+        Timber.d("""Connected with socket id ${socket.id()}""")
+
+        connected = true
+        disconnected = false
+
         socket.emit(
             "onUserConnected",
             gson.toJson(UserConnectedMessage(userID, socket.id())),

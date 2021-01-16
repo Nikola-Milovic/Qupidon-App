@@ -1,11 +1,9 @@
 package com.nikolam.qupidon
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import com.facebook.CallbackManager
 import com.nikolam.common.messaging.MessagingManager
 import com.nikolam.common.navigation.NavManager
 import com.nikolam.qupidon.databinding.ActivityMainBinding
@@ -47,9 +45,13 @@ class MainActivity : AppCompatActivity() {
         Timber.v("onCreate ${javaClass.simpleName}")
     }
 
+    override fun onRestart() {
+        messagingManager.reconnect()
+        super.onRestart()
+    }
 
-    override fun onDestroy() {
+    override fun onStop() {
         messagingManager.disconnect()
-        super.onDestroy()
+        super.onStop()
     }
 }

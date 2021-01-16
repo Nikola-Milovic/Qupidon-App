@@ -7,3 +7,4 @@ const val BaseImageAPIUrl = "/api/pic"
 
 
 const val BaseChatUserApiUrl = "/chat/user"
+const val BaseChatMessagesApiUrl = "/chat/messages"
