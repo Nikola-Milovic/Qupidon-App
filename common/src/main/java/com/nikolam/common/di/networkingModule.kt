@@ -15,7 +15,7 @@ val networkingModule = module {
     single<Retrofit>(named("app")) { provideRetrofit() }
     single<Retrofit>(named("chat")) { provideChatRetrofit() }
 
-    single {MessagingManager()}
+    single {MessagingManager(get())}
 
 }
 

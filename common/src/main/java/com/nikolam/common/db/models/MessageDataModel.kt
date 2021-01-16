@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "messages"
 )
 data class MessageDataModel(
-    @PrimaryKey(autoGenerate = true) val uid: Int,
+    @PrimaryKey(autoGenerate = true) val uid: Int?,
     @ColumnInfo(name = "content") val contents: String?,
     @ColumnInfo(name = "userID") val userID : String?,
     @ColumnInfo(name = "isMine") val isMine : Boolean?,

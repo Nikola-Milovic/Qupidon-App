@@ -7,11 +7,16 @@ import com.nikolam.common.messaging.MessagingManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
+import com.nikolam.feature_messages.domain.GetChatMessagesUseCase
 import com.nikolam.feature_messages.domain.models.MessageDomainModel
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 internal class ChatViewModel (
-    private val messageManager: MessagingManager
+    private val messageManager: MessagingManager,
+    private val getChatMessagesUseCase: GetChatMessagesUseCase
         ) : BaseViewModel<ChatViewModel.ViewState, ChatViewModel.Action>(ViewState()) {
 
     private lateinit var id : String
@@ -40,6 +45,11 @@ internal class ChatViewModel (
 
     fun getMessages() {
         viewModelScope.launch {
+            getChatMessagesUseCase.execute(id).collect {
+                it.forEach {
+                    Timber.d(it.toString())
+                }
+            }
         }
     }
 

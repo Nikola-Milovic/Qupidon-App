@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1895be7148546f0160ab607b7f438968",
+    "identityHash": "919224e2dec70e9d2eb36c1597cd7049",
     "entities": [
       {
         "tableName": "Users",
@@ -32,13 +32,13 @@
       },
       {
         "tableName": "messages",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `content` TEXT, `userID` TEXT, `isMine` INTEGER, `addedAtMillis` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT, `content` TEXT, `userID` TEXT, `isMine` INTEGER, `addedAtMillis` INTEGER)",
         "fields": [
           {
             "fieldPath": "uid",
             "columnName": "uid",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "contents",
@@ -78,7 +78,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1895be7148546f0160ab607b7f438968')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '919224e2dec70e9d2eb36c1597cd7049')"
     ]
   }
 }

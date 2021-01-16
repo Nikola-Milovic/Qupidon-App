@@ -14,7 +14,7 @@ interface ChatDao {
     suspend fun getAllMatches() : List<UserDataModel>
 
     @Query("SELECT * FROM messages WHERE userID = :id")
-    suspend fun getMessagesWithUser(id : String) : List<MessageDataModel>
+    fun getMessagesWithUser(id : String) : Flow<Array<MessageDataModel>>
 
     @Insert
     suspend fun addMessage(message : MessageDataModel)

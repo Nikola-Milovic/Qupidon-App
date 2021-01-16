@@ -49,6 +49,8 @@ class ChatFragment : Fragment() {
 
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
+        viewModel.getMessages()
+
         return view
     }
 
