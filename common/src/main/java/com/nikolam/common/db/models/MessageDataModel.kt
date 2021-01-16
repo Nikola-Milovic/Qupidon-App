@@ -10,7 +10,8 @@ import androidx.room.PrimaryKey
 data class MessageDataModel(
     @PrimaryKey(autoGenerate = true) val uid: Int?,
     @ColumnInfo(name = "content") val contents: String?,
-    @ColumnInfo(name = "userID") val userID : String?,
+    @ColumnInfo(name = "senderID") val senderID : String?,
+    @ColumnInfo(name = "receiverID") val receiverID : String?,
     @ColumnInfo(name = "isMine") val isMine : Boolean?,
     @ColumnInfo(name = "addedAtMillis") val addedAtMillis: Long?
 )

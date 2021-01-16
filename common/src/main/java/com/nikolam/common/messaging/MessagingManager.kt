@@ -87,7 +87,7 @@ class MessagingManager(private val db : AppDatabase) {
             return@Listener
         }
         GlobalScope.launch(Dispatchers.IO) {
-            db.chatDao().addMessage(MessageDataModel(contents = contents, userID = senderID, isMine = false, addedAtMillis = Date().time, uid = null))
+            db.chatDao().addMessage(MessageDataModel(contents = contents, receiverID = userID, senderID = senderID, isMine = false, addedAtMillis = Date().time, uid = null))
         }
 
     }
@@ -96,7 +96,7 @@ class MessagingManager(private val db : AppDatabase) {
         socket.emit("onMessageSent", gson.toJson(SendMessageMessage(userID, sendID, contents)))
 
         GlobalScope.launch(Dispatchers.IO) {
-            db.chatDao().addMessage(MessageDataModel(contents = contents, userID = userID, isMine = true, addedAtMillis = Date().time, uid = null))
+            db.chatDao().addMessage(MessageDataModel(contents = contents, senderID = userID, receiverID = sendID, isMine = true, addedAtMillis = Date().time, uid = null))
         }
     }
 

@@ -6,6 +6,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.facebook.CallbackManager
+import com.nikolam.common.messaging.MessagingManager
 import com.nikolam.common.navigation.NavManager
 import com.nikolam.qupidon.databinding.ActivityMainBinding
 import org.koin.android.ext.android.inject
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val navManager: NavManager by inject()
+
+    private val messagingManager: MessagingManager by inject()
 
     //private val facebookCallBackManager: CallbackManager by inject()
 
@@ -42,5 +45,11 @@ class MainActivity : AppCompatActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
         Timber.v("onCreate ${javaClass.simpleName}")
+    }
+
+
+    override fun onDestroy() {
+        messagingManager.disconnect()
+        super.onDestroy()
     }
 }

@@ -71,7 +71,7 @@ class ChatAdapter() :
 
         fun bind(data: MessageDomainModel) {
             itemBinding.apply {
-                senderTextViewRight.text = data.userID
+                senderTextViewRight.text = data.senderID
                 messageTextViewRight.text = data.content
             }
         }
@@ -83,7 +83,7 @@ class ChatAdapter() :
 
         fun bind(data: MessageDomainModel) {
             itemBinding.apply {
-                senderTextView.text = data.userID
+                senderTextView.text = data.senderID
                 messageTextView.text = data.content
             }
         }

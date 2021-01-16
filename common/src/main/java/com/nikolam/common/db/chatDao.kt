@@ -13,8 +13,8 @@ interface ChatDao {
     @Query("SELECT * FROM users")
     suspend fun getAllMatches() : List<UserDataModel>
 
-    @Query("SELECT * FROM messages WHERE userID = :id")
-    fun getMessagesWithUser(id : String) : Flow<Array<MessageDataModel>>
+    @Query("SELECT * FROM messages WHERE senderID = :userID OR (senderID = :myID AND receiverID = :userID)")
+    fun getMessagesWithUser(userID : String, myID : String) : Flow<Array<MessageDataModel>>
 
     @Insert
     suspend fun addMessage(message : MessageDataModel)
