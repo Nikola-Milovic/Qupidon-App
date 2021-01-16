@@ -8,10 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikolam.feature_messages.R
 import com.nikolam.feature_messages.databinding.ChatFragmentBinding
 import com.nikolam.feature_messages.databinding.ChatListFragmentBinding
 import com.nikolam.feature_messages.di.chatModule
+import com.nikolam.feature_messages.domain.models.MessageDomainModel
+import com.nikolam.feature_messages.presentation.chat_list.ChatListAdapter
 import com.nikolam.feature_messages.presentation.chat_list.ChatListViewModel
 import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
@@ -25,6 +29,8 @@ class ChatFragment : Fragment() {
     private var _binding: ChatFragmentBinding? = null
 
     private val binding get() = _binding!!
+
+    private lateinit var adapter : ChatAdapter
 
     private val stateObserver = Observer<ChatViewModel.ViewState> {
     }
@@ -47,7 +53,24 @@ class ChatFragment : Fragment() {
             viewModel.sendMessage(binding.messageEditText.text.toString())
         }
 
+        adapter = ChatAdapter()
+
+        binding.messagesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.messagesRecyclerView.addItemDecoration(
+                DividerItemDecoration(
+                        requireContext(),
+                        DividerItemDecoration.VERTICAL
+                )
+        )
+
+        binding.messagesRecyclerView.adapter = adapter
+
+
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
+
+        viewModel.messageLiveData.observe(viewLifecycleOwner, {
+            adapter.newData(it)
+        })
 
         viewModel.getMessages()
 

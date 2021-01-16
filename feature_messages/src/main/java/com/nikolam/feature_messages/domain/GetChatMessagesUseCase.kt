@@ -9,9 +9,8 @@ import timber.log.Timber
 class GetChatMessagesUseCase(
         private val messageRepository: MessageRepository
 ) {
-
-
-    suspend fun execute(id : String): Flow<Array<MessageDataModel>> {
-        return messageRepository.getMessagesWithUser(id)
+    
+    suspend fun execute(id : String, myID : String): Flow<Array<MessageDataModel>> {
+        return messageRepository.getMessagesWithUser(id, myID)
     }
 }

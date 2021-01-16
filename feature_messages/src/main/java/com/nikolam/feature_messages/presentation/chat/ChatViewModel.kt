@@ -9,6 +9,7 @@ import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
 import com.nikolam.feature_messages.domain.GetChatMessagesUseCase
 import com.nikolam.feature_messages.domain.models.MessageDomainModel
+import com.nikolam.feature_messages.domain.models.toDomainModel
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -45,10 +46,13 @@ internal class ChatViewModel (
 
     fun getMessages() {
         viewModelScope.launch {
-            getChatMessagesUseCase.execute(id).collect {
+            getChatMessagesUseCase.execute(id, messageManager.getID()).collect {
+                val mess = arrayListOf<MessageDomainModel>()
                 it.forEach {
-                    Timber.d(it.toString())
+                    mess.add(it.toDomainModel())
                 }
+                mess.sortedWith(compareBy { it.addedAtMillis })
+                _messageLiveData.postValue(mess)
             }
         }
     }

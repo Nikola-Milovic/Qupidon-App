@@ -51,6 +51,10 @@ class MessagingManager(private val db : AppDatabase) {
             })
     }
 
+    fun getID() : String {
+        return userID
+    }
+
     private val onConnect: Emitter.Listener = Emitter.Listener {
         Timber.d("""Socket id is ${socket.id()}""")
         socket.emit(
@@ -90,6 +94,10 @@ class MessagingManager(private val db : AppDatabase) {
 
     fun sendMessage(sendID: String, contents: String) {
         socket.emit("onMessageSent", gson.toJson(SendMessageMessage(userID, sendID, contents)))
+
+        GlobalScope.launch(Dispatchers.IO) {
+            db.chatDao().addMessage(MessageDataModel(contents = contents, userID = userID, isMine = true, addedAtMillis = Date().time, uid = null))
+        }
     }
 
     private data class UserConnectedMessage(val user_id: String, val socket_id: String)
