@@ -16,6 +16,9 @@ interface ChatDao {
     @Query("SELECT * FROM messages WHERE senderID = :userID OR (senderID = :myID AND receiverID = :userID)")
     fun getMessagesWithUser(userID : String, myID : String) : Flow<Array<MessageDataModel>>
 
+    @Query("SELECT COUNT(userID) FROM users WHERE userID = :userID")
+    fun userExists(userID : String) : Int
+
     @Insert
     suspend fun addMessage(message : MessageDataModel)
 

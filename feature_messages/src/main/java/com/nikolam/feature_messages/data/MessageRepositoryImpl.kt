@@ -12,7 +12,8 @@ class MessageRepositoryImpl (private val db : AppDatabase) : MessageRepository{
     override suspend fun getUserList(): ArrayList<UserDomainModel> {
         val users = arrayListOf<UserDomainModel>()
         chatDao.getAllMatches().forEach {
-            users.add(UserDomainModel(it.userID, it.name ?: ""))
+            //TODO add default image
+            users.add(UserDomainModel(it.userID, it.name ?: "", profilePicture = it.profilePictureUrl ?: ""))
         }
 
         return users

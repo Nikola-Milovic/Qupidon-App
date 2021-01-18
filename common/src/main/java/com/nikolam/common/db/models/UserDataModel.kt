@@ -10,4 +10,5 @@ import androidx.room.PrimaryKey
 data class UserDataModel(
     @PrimaryKey val userID: String,
     @ColumnInfo(name = "name") val name: String?,
+    @ColumnInfo(name = "profile_pic") val profilePictureUrl: String?,
 )

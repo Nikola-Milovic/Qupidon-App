@@ -54,9 +54,14 @@ internal class MainViewModel  (private val navManager: NavManager,
             getProfilesUseCase.execute(id).let {
                 when(it) {
                     is GetProfilesUseCase.Result.Success -> {
+                        if (it.users.isEmpty()) return@let
                         Timber.d(it.users.toString())
                         sendAction(Action.LoadingMatchesSuccess)
                         profiles.addAll(it.users)
+                        it.users.forEach {
+                            it.profilePicUrl = "https://qupidon-images.s3.eu-central-1.amazonaws.com/${it.profilePicUrl}"
+                            profiles.add(it)
+                        }
                         val profile = profiles[0]
                         _profileLiveData.postValue(profile)
                     }

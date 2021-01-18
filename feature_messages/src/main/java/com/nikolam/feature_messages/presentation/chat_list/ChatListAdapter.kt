@@ -3,6 +3,7 @@ package com.nikolam.feature_messages.presentation.chat_list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.nikolam.feature_messages.data.models.ChatUserModel
 import com.nikolam.feature_messages.databinding.ChatListItemBinding
 import com.nikolam.feature_messages.domain.models.UserDomainModel
@@ -46,6 +47,9 @@ class ChatListAdapter (private val listener : ChatListItemClickListener) :
             itemBinding.apply {
                 name.text = data.name
             }
+
+            Glide.with(itemBinding.profilePicImageView).load(data.profilePicture).into(itemBinding.profilePicImageView)
+
             itemBinding.root.setOnClickListener {
                 listener.onChatItemClicked(data.userID)
             }

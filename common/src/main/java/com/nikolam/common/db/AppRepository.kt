@@ -1,9 +1,10 @@
 package com.nikolam.common.db
 
-import com.nikolam.common.db.models.MatchedUsersModel
+import com.nikolam.common.db.models.MatchedUsersResponse
 import com.nikolam.common.db.models.UserDataModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,31 +16,46 @@ class AppRepository(private val db: AppDatabase,
 ) {
 
     fun getMatches(id: String) {
-        appRetrofitService.getMatchedUsers(id).enqueue(object : Callback<MatchedUsersModel> {
-            override fun onResponse(call: Call<MatchedUsersModel>, response: Response<MatchedUsersModel>) {
+        appRetrofitService.getMatchedUsers(id).enqueue(object : Callback<List<String>> {
+            override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
                 if (response.code() == 200) {
                     Timber.d(response.body().toString())
                     response.body()?.let {
-                        saveMatches(matchModel = it)
+                        saveMatches(matchIds = it)
                     }
                 }
 
             }
 
-            override fun onFailure(call: Call<MatchedUsersModel>, t: Throwable) {
-                TODO("Not yet implemented")
+            override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                Timber.d(t.localizedMessage)
             }
 
         })
     }
 
 
-    fun saveMatches(matchModel: MatchedUsersModel) {
-        GlobalScope.launch(Dispatchers.IO) {
-            matchModel.matches.forEach { id ->
-                Timber.d("Added new match! $id")
-                db.chatDao().addMatch(UserDataModel(id, ""))
+    fun saveMatches(matchIds: List<String>) {
+        GlobalScope.launch(Dispatchers.IO + NonCancellable) {
+            matchIds.forEach { id ->
+                appRetrofitService.getMatchedUserProfile(id).enqueue(object : Callback<MatchedUsersResponse> {
+                    override fun onResponse(call: Call<MatchedUsersResponse>, response: Response<MatchedUsersResponse>) {
+                        if (response.isSuccessful) {
+                            GlobalScope.launch {
+                                val profile = response.body()
+                                Timber.d("Added new match! $id")
+                                db.chatDao().addMatch(UserDataModel(id, profile?.name, "https://qupidon-images.s3.eu-central-1.amazonaws.com/${profile?.profile_pic}"))
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<MatchedUsersResponse>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                }
+                )
             }
         }
+
     }
 }
