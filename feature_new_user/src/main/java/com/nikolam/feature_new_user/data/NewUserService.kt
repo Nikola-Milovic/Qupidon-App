@@ -1,5 +1,6 @@
 package com.nikolam.feature_new_user.data
 
+import com.nikolam.common.BaseChatUserApiUrl
 import com.nikolam.common.BaseImageAPIUrl
 import com.nikolam.common.BaseUserAPIUrl
 import com.nikolam.feature_new_user.data.model.NewProfileModel
@@ -15,6 +16,7 @@ interface NewUserService {
     fun saveProfile(@Query("id") id: String, @Body profile: NewProfileModel): Call<Void>
 
     @Multipart
-    @POST("$BaseImageAPIUrl/upload")
+    @POST("$BaseImageAPIUrl/ppic")
     fun postImage(@Part("user_id") id : RequestBody,@Part image : MultipartBody.Part) : Call<Void>
 }
+

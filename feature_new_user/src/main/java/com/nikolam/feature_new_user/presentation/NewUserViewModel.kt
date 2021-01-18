@@ -9,6 +9,7 @@ import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
 import com.nikolam.feature_new_user.data.model.NewProfileModel
+import com.nikolam.feature_new_user.domain.CreateChatUserUseCase
 import com.nikolam.feature_new_user.domain.SaveProfilePictureUseCase
 import com.nikolam.feature_new_user.domain.SaveProfileUseCase
 import kotlinx.coroutines.launch
@@ -17,13 +18,21 @@ import timber.log.Timber
 internal class NewUserViewModel(
     private val navManager: NavManager,
     private val saveProfileUseCase: SaveProfileUseCase,
-    private val saveProfilePictureUseCase: SaveProfilePictureUseCase
+    private val saveProfilePictureUseCase: SaveProfilePictureUseCase,
+    private val createChatUserUseCase: CreateChatUserUseCase
 ) : BaseViewModel<NewUserViewModel.ViewState, NewUserViewModel.Action>(ViewState()) {
 
     private lateinit var id : String
 
     override fun onReduceState(viewAction: Action) = when (viewAction) {
         Action.SaveSucess -> state
+    }
+
+    override fun onLoadData() {
+        super.onLoadData()
+        viewModelScope.launch {
+            createChatUserUseCase.execute(id)
+        }
     }
 
     fun saveProfile(profile : NewProfileModel, path : String) {

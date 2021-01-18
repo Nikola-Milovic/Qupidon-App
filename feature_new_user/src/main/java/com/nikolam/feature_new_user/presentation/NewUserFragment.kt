@@ -119,6 +119,8 @@ class NewUserFragment : Fragment() {
 
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
+        viewModel.loadData()
+
         return view
     }
 

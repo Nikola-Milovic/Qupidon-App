@@ -79,7 +79,7 @@ private val messagingService: MessagingService) {
         socket.connect()
     }
 
-    fun getUnreadMessages() {
+    private fun getUnreadMessages() {
         GlobalScope.launch {
             messagingService.getUnreadMessages(userID).forEach {
                 Timber.d("Add new unread message")

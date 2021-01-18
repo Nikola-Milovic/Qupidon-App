@@ -19,20 +19,22 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class NewUserRepositoryImpl(
-    private val newUserService: NewUserService,
-    private val context: Context
+        private val newUserService: NewUserService,
+        private val chatUserService: ChatUserService,
+        private val context: Context
 ) :
     NewUserRepository {
 
     @ExperimentalCoroutinesApi
     override suspend fun saveProfile(id: String, profileModel: NewProfileModel): SaveResponse =
         suspendCoroutine { cont ->
+
             Timber.d(profileModel.toString())
             val call = newUserService.saveProfile(id, profileModel)
             call.enqueue(object : Callback<Void> {
                 override fun onResponse(
-                    call: Call<Void>,
-                    response: Response<Void>
+                        call: Call<Void>,
+                        response: Response<Void>
                 ) {
                     cont.resume(SaveResponse(response.code()))
                 }
@@ -43,6 +45,11 @@ class NewUserRepositoryImpl(
 
             })
         }
+
+    override suspend fun createChatUser(id: String) {
+        Timber.d("Create new chat user  $id")
+        chatUserService.createChatUser(id).enqueue(EmptyCallback())
+    }
 
     override suspend fun uploadProfilePic(id: String, filePath: String): SaveResponse =
         suspendCoroutine { cont ->
@@ -66,4 +73,10 @@ class NewUserRepositoryImpl(
                 }
             })
         }
+
+
+    inner class EmptyCallback<T> : Callback<T> {
+        override fun onResponse(call: Call<T>, response: Response<T>) {}
+        override fun onFailure(call: Call<T>, t: Throwable) {}
+    }
 }

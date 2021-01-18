@@ -23,6 +23,7 @@ class LoginRepositoryImpl(
             val call = loginService.facebookTokenLogin(token)
             call.enqueue(object : Callback<FacebookLoginResponse>{
                 override fun onResponse(call: Call<FacebookLoginResponse>, response: Response<FacebookLoginResponse>) {
+
                     cont.resume(response.body()!!)
                 }
 
