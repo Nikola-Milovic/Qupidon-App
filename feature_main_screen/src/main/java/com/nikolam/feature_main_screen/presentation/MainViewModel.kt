@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.nikolam.common.messaging.MessagingManager
+import com.nikolam.data.messaging.MessagingManager
 import com.nikolam.common.navigation.ChatDeepLinkUri
 import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
@@ -24,7 +24,7 @@ internal class MainViewModel  (private val navManager: NavManager,
                                private val interactionUseCase: InteractionUseCase,
                                private val getMatchesUseCase: GetMatchesUseCase,
                                private val saveTokenUseCase: SaveTokenUseCase,
-                               private val messagingManager: MessagingManager
+                               private val messagingManager: com.nikolam.data.messaging.MessagingManager
 ) : BaseViewModel<MainViewModel.ViewState, MainViewModel.Action>(ViewState()) {
 
     private lateinit var id : String

@@ -3,20 +3,18 @@ package com.nikolam.feature_messages.presentation.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.nikolam.common.messaging.MessagingManager
+import com.nikolam.data.messaging.MessagingManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
 import com.nikolam.feature_messages.domain.GetChatMessagesUseCase
 import com.nikolam.feature_messages.domain.models.MessageDomainModel
 import com.nikolam.feature_messages.domain.models.toDomainModel
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 internal class ChatViewModel (
-    private val messageManager: MessagingManager,
+    private val messageManager: com.nikolam.data.messaging.MessagingManager,
     private val getChatMessagesUseCase: GetChatMessagesUseCase
         ) : BaseViewModel<ChatViewModel.ViewState, ChatViewModel.Action>(ViewState()) {
 

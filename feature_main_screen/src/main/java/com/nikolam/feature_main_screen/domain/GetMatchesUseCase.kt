@@ -1,11 +1,10 @@
 package com.nikolam.feature_main_screen.domain
 
-import com.nikolam.common.db.AppRepository
-import com.nikolam.feature_main_screen.data.model.ProfileModel
+import com.nikolam.data.db.AppRepository
 import timber.log.Timber
 
 class GetMatchesUseCase(
-    private val appRepository: AppRepository
+    private val appRepository: com.nikolam.data.db.AppRepository
 ) {
 
     sealed class Result {

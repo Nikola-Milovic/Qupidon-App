@@ -1,4 +1,4 @@
-package com.nikolam.common.db.models
+package com.nikolam.data.db.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

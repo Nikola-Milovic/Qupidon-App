@@ -1,9 +1,7 @@
-package com.nikolam.common.messaging
+package com.nikolam.data.messaging
 
 import com.nikolam.common.BaseChatMessagesApiUrl
-import com.nikolam.common.BaseChatUserApiUrl
-import com.nikolam.common.db.models.MessageDataModel
-import com.nikolam.common.messaging.models.MessageResponseModel
+import com.nikolam.data.messaging.models.MessageResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 

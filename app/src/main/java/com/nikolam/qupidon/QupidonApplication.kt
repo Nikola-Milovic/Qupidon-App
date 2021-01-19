@@ -5,8 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import com.nikolam.common.di.dbModule
-import com.nikolam.common.di.networkingModule
+import com.nikolam.data.di.dbModule
+import com.nikolam.data.di.networkingModule
 import com.nikolam.qupidon.di.facebookModule
 import com.nikolam.qupidon.di.navigationModule
 import org.koin.android.ext.koin.androidContext

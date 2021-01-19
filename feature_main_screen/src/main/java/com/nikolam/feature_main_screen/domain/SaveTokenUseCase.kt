@@ -1,7 +1,5 @@
 package com.nikolam.feature_main_screen.domain
 
-import com.nikolam.common.db.AppRepository
-import com.nikolam.feature_main_screen.data.model.ProfileModel
 import timber.log.Timber
 
 class SaveTokenUseCase(

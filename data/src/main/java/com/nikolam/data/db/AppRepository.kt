@@ -1,7 +1,7 @@
-package com.nikolam.common.db
+package com.nikolam.data.db
 
-import com.nikolam.common.db.models.MatchedUsersResponse
-import com.nikolam.common.db.models.UserDataModel
+import com.nikolam.data.db.models.MatchedUsersResponse
+import com.nikolam.data.db.models.UserDataModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.NonCancellable

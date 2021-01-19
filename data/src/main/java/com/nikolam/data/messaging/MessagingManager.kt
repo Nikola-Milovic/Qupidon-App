@@ -1,8 +1,8 @@
-package com.nikolam.common.messaging
+package com.nikolam.data.messaging
 
 import com.google.gson.Gson
-import com.nikolam.common.db.AppDatabase
-import com.nikolam.common.db.models.MessageDataModel
+import com.nikolam.data.db.AppDatabase
+import com.nikolam.data.db.models.MessageDataModel
 import io.socket.client.Ack
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -17,7 +17,8 @@ import java.net.URI
 import java.util.*
 
 class MessagingManager(private val db : AppDatabase,
-private val messagingService: MessagingService) {
+                       private val messagingService: MessagingService
+) {
 
     private var connected = false
 

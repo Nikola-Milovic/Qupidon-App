@@ -1,7 +1,7 @@
 package com.nikolam.feature_main_screen.data
 
 
-import com.nikolam.common.db.AppDatabase
+import com.nikolam.data.db.AppDatabase
 import com.nikolam.feature_main_screen.data.model.LikedUser
 import com.nikolam.feature_main_screen.data.model.ProfileModel
 import com.nikolam.feature_main_screen.data.model.RejectedUser
@@ -21,7 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 class MainRepositoryImpl(
     private val mainService: MainScreenService,
     private val mainChatService: MainScreenChatService,
-    private val db: AppDatabase
+    private val db: com.nikolam.data.db.AppDatabase
 ) :
     MainRepository {
     override suspend fun getProfiles(id: String): ArrayList<ProfileModel> =

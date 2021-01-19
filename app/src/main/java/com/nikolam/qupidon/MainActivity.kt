@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import com.nikolam.common.messaging.MessagingManager
 import com.nikolam.common.navigation.NavManager
+import com.nikolam.data.messaging.MessagingManager
 import com.nikolam.qupidon.databinding.ActivityMainBinding
 import org.koin.android.ext.android.inject
 import timber.log.Timber

@@ -72,6 +72,7 @@ dependencies {
 
 
     implementation(project(":common"))
+    implementation(project(":data"))
 
     addTestDependencies()
 }

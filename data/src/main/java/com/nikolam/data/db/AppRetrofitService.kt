@@ -1,7 +1,7 @@
-package com.nikolam.common.db
+package com.nikolam.data.db
 
 import com.nikolam.common.BaseMatchAPIUrl
-import com.nikolam.common.db.models.MatchedUsersResponse
+import com.nikolam.data.db.models.MatchedUsersResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

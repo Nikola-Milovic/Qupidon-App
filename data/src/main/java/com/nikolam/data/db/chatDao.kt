@@ -1,11 +1,11 @@
-package com.nikolam.common.db
+package com.nikolam.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.nikolam.common.db.models.MessageDataModel
-import com.nikolam.common.db.models.UserDataModel
+import com.nikolam.data.db.models.MessageDataModel
+import com.nikolam.data.db.models.UserDataModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

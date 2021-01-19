@@ -1,19 +1,16 @@
-package com.nikolam.common.di
+package com.nikolam.data.di
 
-import com.nikolam.common.messaging.MessagingManager
-import com.nikolam.common.messaging.MessagingService
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 
 val networkingModule = module {
 
     single(named("app")) { provideRetrofit() }
     single(named("chat")) { provideChatRetrofit() }
 
-    single { MessagingManager(get(), get()) }
+    single { com.nikolam.data.messaging.MessagingManager(get(), get()) }
     single { provideMessagingService(get(named("chat"))) }
 
 }
@@ -32,6 +29,6 @@ fun provideChatRetrofit(): Retrofit {
             .build()
 }
 
-fun provideMessagingService(retrofit: Retrofit): MessagingService {
-    return retrofit.create(MessagingService::class.java)
+fun provideMessagingService(retrofit: Retrofit): com.nikolam.data.messaging.MessagingService {
+    return retrofit.create(com.nikolam.data.messaging.MessagingService::class.java)
 }

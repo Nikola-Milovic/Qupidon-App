@@ -1,8 +1,8 @@
-package com.nikolam.common.db.converters
+package com.nikolam.data.db.converters
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.nikolam.common.db.models.MessageDataModel
+import com.nikolam.data.db.models.MessageDataModel
 
 object Converters {
     @TypeConverter
