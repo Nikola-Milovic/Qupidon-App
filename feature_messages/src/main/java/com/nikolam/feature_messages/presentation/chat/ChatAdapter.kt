@@ -1,5 +1,6 @@
 package com.nikolam.feature_messages.presentation.chat
 
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -70,8 +71,9 @@ class ChatAdapter() :
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(data: MessageDomainModel) {
+            val sentAt = DateUtils.getRelativeDateTimeString(itemBinding.root.context, data.addedAtMillis,  DateUtils.MINUTE_IN_MILLIS, DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_NO_YEAR)
             itemBinding.apply {
-                senderTextViewRight.text = data.senderID
+                dateTextView.text = sentAt
                 messageTextViewRight.text = data.content
             }
         }
@@ -82,8 +84,9 @@ class ChatAdapter() :
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(data: MessageDomainModel) {
+            val sentAt = DateUtils.getRelativeDateTimeString(itemBinding.root.context, data.addedAtMillis,  DateUtils.MINUTE_IN_MILLIS, DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_NO_YEAR)
             itemBinding.apply {
-                senderTextView.text = data.senderID
+                dateTextView.text = sentAt
                 messageTextView.text = data.content
             }
         }

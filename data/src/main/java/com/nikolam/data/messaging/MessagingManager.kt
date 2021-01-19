@@ -84,7 +84,7 @@ class MessagingManager(private val db : AppDatabase,
         GlobalScope.launch {
             messagingService.getUnreadMessages(userID).forEach {
                 Timber.d("Add new unread message")
-                db.chatDao().addMessage(MessageDataModel(null, contents = it.content, senderID = it.sender_id, receiverID = userID, false, Date().time))
+                db.chatDao().addMessage(MessageDataModel(null, contents = it.content, senderID = it.sender_id, receiverID = userID, false, it.sent_at_milis))
             }
         }
     }
@@ -120,23 +120,25 @@ class MessagingManager(private val db : AppDatabase,
         val contents : String
         val receiverID : String
         val senderID : String
+        val sentAt : Long
         Timber.d(data.toString())
         try {
             contents = data.getString("contents")
             receiverID = data.getString("receiver_id")
             senderID = data.getString("sender_id")
+            sentAt = data.getLong("sent_at_milis")
         } catch (e: JSONException) {
             Timber.d(e.localizedMessage)
             return@Listener
         }
         GlobalScope.launch(Dispatchers.IO) {
-            db.chatDao().addMessage(MessageDataModel(contents = contents, receiverID = userID, senderID = senderID, isMine = false, addedAtMillis = Date().time, uid = null))
+            db.chatDao().addMessage(MessageDataModel(contents = contents, receiverID = userID, senderID = senderID, isMine = false, addedAtMillis = sentAt, uid = null))
         }
 
     }
 
     fun sendMessage(sendID: String, contents: String) {
-        socket.emit("onMessageSent", gson.toJson(SendMessageMessage(userID, sendID, contents)))
+        socket.emit("onMessageSent", gson.toJson(SendMessageMessage(userID, sendID, contents, Date().time)))
 
         GlobalScope.launch(Dispatchers.IO) {
             db.chatDao().addMessage(MessageDataModel(contents = contents, senderID = userID, receiverID = sendID, isMine = true, addedAtMillis = Date().time, uid = null))
@@ -147,7 +149,8 @@ class MessagingManager(private val db : AppDatabase,
     private data class SendMessageMessage(
         val sender_id: String,
         val receiver_id: String,
-        val contents: String
+        val contents: String,
+        val sent_at_milis : Long
     )
     private data class UserDisconnectedMessage(val user_id: String)
 
