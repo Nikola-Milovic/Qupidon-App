@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.nikolam.di.profileModule
 import com.nikolam.feature_profile.databinding.ProfileFragmentBinding
 import org.koin.android.ext.android.inject
@@ -24,6 +25,10 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val stateObserver = Observer<ProfileViewModel.ViewState> {
+        if (it.isSuccess){
+            binding.nameTextView.text = it.profile?.name
+            Glide.with(binding.profileImage).load(it.profile?.profilePictureUrl).into(binding.profileImage)
+        }
     }
 
     override fun onCreateView(
@@ -37,9 +42,13 @@ class ProfileFragment : Fragment() {
         // TODO load the basic data from the db first
         arguments?.let {
             val id = it.getString("id")
-          //  viewModel.setID(id ?: "")
+            viewModel.setID(id ?: "")
             Timber.d("The id is $id")
         }
+
+        viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
+
+        viewModel.getProfile()
 
         return view
     }
@@ -47,11 +56,6 @@ class ProfileFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         loadKoinModules(profileModule)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        activity?.actionBar?.show()
     }
 
     override fun onDestroyView() {

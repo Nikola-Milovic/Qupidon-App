@@ -1,21 +1,19 @@
 package com.nikolam.feature_profile
 
-import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nikolam.common.navigation.ChatDeepLinkUri
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
-import kotlinx.coroutines.Dispatchers
+import com.nikolam.domain.GetProfileUseCase
+import com.nikolam.domain.models.ProfileDomainModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
-internal class ProfileViewModel () : BaseViewModel<ProfileViewModel.ViewState, ProfileViewModel.Action>(ViewState()) {
+internal class ProfileViewModel(
+    private val getProfileUseCase: GetProfileUseCase
 
-    private lateinit var id : String
+) : BaseViewModel<ProfileViewModel.ViewState, ProfileViewModel.Action>(ViewState()) {
+
+    private lateinit var id: String
 
 //    private val _profileLiveData: MutableLiveData<ProfileModel> = MutableLiveData()
 //    val profileLiveData: LiveData<ProfileModel>
@@ -23,12 +21,13 @@ internal class ProfileViewModel () : BaseViewModel<ProfileViewModel.ViewState, P
 
 
     override fun onReduceState(viewAction: Action) = when (viewAction) {
-        is Action.LoadingMatchesSuccess ->state.copy(
+        is Action.LoadingProfileSuccess -> state.copy(
             isError = false,
             isSuccess = true,
             isLoading = false,
+            profile = viewAction.profile
         )
-        is Action.LoadingMatchesFailure -> state.copy(
+        is Action.LoadingProfileFailure -> state.copy(
             isError = true,
             isSuccess = false,
             isLoading = false
@@ -37,12 +36,19 @@ internal class ProfileViewModel () : BaseViewModel<ProfileViewModel.ViewState, P
 
     fun getProfile() {
         viewModelScope.launch {
-
+            getProfileUseCase.execute(id).let {
+                when (it) {
+                    is GetProfileUseCase.Result.Success -> {
+                        sendAction(Action.LoadingProfileSuccess(it.profile))
+                    }
+                    is GetProfileUseCase.Result.Error -> {
+                    }
+                }
+            }
         }
     }
 
-
-    fun setID(id : String) {
+    fun setID(id: String) {
         this.id = id
     }
 
@@ -56,10 +62,11 @@ internal class ProfileViewModel () : BaseViewModel<ProfileViewModel.ViewState, P
         val isSuccess: Boolean = false,
         val isLoading: Boolean = false,
         val isError: Boolean = false,
+        val profile: ProfileDomainModel? = null
     ) : BaseViewState
 
     internal sealed class Action : BaseAction {
-        object LoadingMatchesSuccess : Action()
-        object LoadingMatchesFailure : Action()
+        class LoadingProfileSuccess(val profile: ProfileDomainModel) : Action()
+        object LoadingProfileFailure : Action()
     }
 }

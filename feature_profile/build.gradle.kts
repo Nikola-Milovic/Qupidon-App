@@ -63,7 +63,12 @@ dependencies {
     api(LibraryDependency.COROUTINES_ANDROID)
     api(LibraryDependency.COROUTINES_CORE)
 
-    implementation(LibraryDependency.FACEBOOK_SDK)
+    implementation(LibraryDependency.IMAGE_PICKER) {
+        this.exclude("com.github.bumptech.glide")
+    }
+    implementation(LibraryDependency.GLIDE)
+    annotationProcessor(LibraryDependency.GLIDE_COMPILER)
+
 
     implementation(project(":common"))
 
