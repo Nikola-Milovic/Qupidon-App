@@ -75,6 +75,10 @@ class MainFragment : Fragment() {
             viewModel.navigateToChat()
         }
 
+        binding.profileButton.setOnClickListener{
+            viewModel.navigateToProfile()
+        }
+
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
         viewModel.getProfiles()

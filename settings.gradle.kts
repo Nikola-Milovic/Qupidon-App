@@ -1,4 +1,3 @@
-
 rootProject.name = "qupidon"
 rootProject.buildFileName = "build.gradle.kts"
 
@@ -10,5 +9,6 @@ include(
     ":feature_login",
     ":feature_main_screen",
     ":feature_new_user",
-    ":feature_messages"
+    ":feature_messages",
+    ":feature_profile"
 )

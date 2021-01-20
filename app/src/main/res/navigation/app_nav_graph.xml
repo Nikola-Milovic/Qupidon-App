@@ -53,4 +53,15 @@
             android:name="id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.nikolam.feature_profile.ProfileFragment"
+        android:label="ProfileFragment">
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="qupidon://profile/?id={id}" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>

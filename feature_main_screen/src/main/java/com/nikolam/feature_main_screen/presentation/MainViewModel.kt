@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.nikolam.data.messaging.MessagingManager
 import com.nikolam.common.navigation.ChatDeepLinkUri
 import com.nikolam.common.navigation.NavManager
+import com.nikolam.common.navigation.ProfileDeepLinkUri
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
@@ -105,6 +106,11 @@ internal class MainViewModel  (private val navManager: NavManager,
 
     fun navigateToChat() {
         val uri = Uri.parse("$ChatDeepLinkUri/?id=$id")
+        navManager.navigate(uri)
+    }
+
+    fun navigateToProfile() {
+        val uri = Uri.parse("$ProfileDeepLinkUri/?id=$id")
         navManager.navigate(uri)
     }
 
