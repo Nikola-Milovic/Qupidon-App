@@ -6,7 +6,7 @@ import com.nikolam.feature_messages.domain.MessageRepository
 import com.nikolam.feature_messages.domain.models.UserDomainModel
 import kotlinx.coroutines.flow.Flow
 
-class MessageRepositoryImpl (private val db : com.nikolam.data.db.AppDatabase) : MessageRepository{
+class MessageRepositoryImpl (private val db : AppDatabase) : MessageRepository{
     private val chatDao = db.chatDao()
 
     override suspend fun getUserList(): ArrayList<UserDomainModel> {
@@ -22,6 +22,11 @@ class MessageRepositoryImpl (private val db : com.nikolam.data.db.AppDatabase) :
 
     override suspend fun getMessagesWithUser(userID: String, myID : String) : Flow<Array<com.nikolam.data.db.models.MessageDataModel>> {
         return db.chatDao().getMessagesWithUser(userID, myID)
+    }
+
+    override suspend fun getUserProfile(userID: String): UserDomainModel {
+        val user = db.chatDao().getUserProfile(userID)
+        return UserDomainModel(user.userID, user.name ?: "", user.profilePictureUrl ?: "")
     }
 
 }

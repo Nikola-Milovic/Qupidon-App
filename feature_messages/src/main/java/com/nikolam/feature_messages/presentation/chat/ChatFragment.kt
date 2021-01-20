@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.nikolam.feature_messages.R
 import com.nikolam.feature_messages.databinding.ChatFragmentBinding
 import com.nikolam.feature_messages.databinding.ChatListFragmentBinding
@@ -33,6 +34,11 @@ class ChatFragment : Fragment() {
     private lateinit var adapter : ChatAdapter
 
     private val stateObserver = Observer<ChatViewModel.ViewState> {
+        if (it.isSuccess){
+         binding.chatNameTextView.text = it.profile?.name
+         Glide.with(binding.chatProfilePicImageView.context).load(it.profile?.profilePicture)
+                 .into(binding.chatProfilePicImageView)
+        }
     }
 
     override fun onCreateView(
@@ -53,15 +59,13 @@ class ChatFragment : Fragment() {
             viewModel.sendMessage(binding.messageEditText.text.toString())
         }
 
+        binding.goBackImageView.setOnClickListener {
+            activity?.supportFragmentManager?.popBackStackImmediate()
+        }
+
         adapter = ChatAdapter()
 
         binding.messagesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.messagesRecyclerView.addItemDecoration(
-                DividerItemDecoration(
-                        requireContext(),
-                        DividerItemDecoration.VERTICAL
-                )
-        )
 
         binding.messagesRecyclerView.adapter = adapter
 
@@ -73,6 +77,7 @@ class ChatFragment : Fragment() {
         })
 
         viewModel.getMessages()
+        viewModel.getProfile()
 
         return view
     }

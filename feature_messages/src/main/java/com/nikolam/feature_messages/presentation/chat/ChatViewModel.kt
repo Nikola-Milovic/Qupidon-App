@@ -3,22 +3,24 @@ package com.nikolam.feature_messages.presentation.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.nikolam.data.messaging.MessagingManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
 import com.nikolam.feature_messages.domain.GetChatMessagesUseCase
+import com.nikolam.feature_messages.domain.GetUserProfileUseCase
 import com.nikolam.feature_messages.domain.models.MessageDomainModel
+import com.nikolam.feature_messages.domain.models.UserDomainModel
 import com.nikolam.feature_messages.domain.models.toDomainModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class ChatViewModel (
-    private val messageManager: com.nikolam.data.messaging.MessagingManager,
-    private val getChatMessagesUseCase: GetChatMessagesUseCase
-        ) : BaseViewModel<ChatViewModel.ViewState, ChatViewModel.Action>(ViewState()) {
+internal class ChatViewModel(
+        private val messageManager: com.nikolam.data.messaging.MessagingManager,
+        private val getChatMessagesUseCase: GetChatMessagesUseCase,
+        private val getUserProfileUseCase: GetUserProfileUseCase
+) : BaseViewModel<ChatViewModel.ViewState, ChatViewModel.Action>(ViewState()) {
 
-    private lateinit var id : String
+    private lateinit var id: String
 
     private val _messageLiveData: MutableLiveData<ArrayList<MessageDomainModel>> = MutableLiveData()
     val messageLiveData: LiveData<ArrayList<MessageDomainModel>>
@@ -26,19 +28,20 @@ internal class ChatViewModel (
 
 
     override fun onReduceState(viewAction: Action) = when (viewAction) {
-        is Action.LoadingMatchesSuccess ->state.copy(
-            isError = false,
-            isSuccess = true,
-            isLoading = false,
+        is Action.LoadingChatSuccess -> state.copy(
+                isError = false,
+                isSuccess = true,
+                isLoading = false,
+                profile = viewAction.profile
         )
-        is Action.LoadingMatchesFailure -> state.copy(
-            isError = true,
-            isSuccess = false,
-            isLoading = false
+        is Action.LoadingChatFailure -> state.copy(
+                isError = true,
+                isSuccess = false,
+                isLoading = false
         )
     }
 
-    fun setID(id : String) {
+    fun setID(id: String) {
         this.id = id
     }
 
@@ -55,8 +58,22 @@ internal class ChatViewModel (
         }
     }
 
-    fun sendMessage(text : String){
-        messageManager.sendMessage(id , text)
+    fun getProfile() {
+        viewModelScope.launch {
+            getUserProfileUseCase.execute(id).let {
+                when (it) {
+                    is GetUserProfileUseCase.Result.Success -> {
+                        sendAction(Action.LoadingChatSuccess(it.response))
+                    }
+                    is GetUserProfileUseCase.Result.Error -> {
+                    }
+                }
+            }
+        }
+    }
+
+    fun sendMessage(text: String) {
+        messageManager.sendMessage(id, text)
     }
 
 //    fun navigate(id: String) {
@@ -65,13 +82,14 @@ internal class ChatViewModel (
 //    }
 
     internal data class ViewState(
-        val isSuccess: Boolean = false,
-        val isLoading: Boolean = false,
-        val isError: Boolean = false,
+            val isSuccess: Boolean = false,
+            val isLoading: Boolean = false,
+            val isError: Boolean = false,
+            val profile: UserDomainModel? = null
     ) : BaseViewState
 
     internal sealed class Action : BaseAction {
-        object LoadingMatchesSuccess : Action()
-        object LoadingMatchesFailure : Action()
+        class LoadingChatSuccess(val profile: UserDomainModel) : Action()
+        object LoadingChatFailure : Action()
     }
 }

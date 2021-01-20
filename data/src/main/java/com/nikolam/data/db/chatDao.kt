@@ -13,6 +13,9 @@ interface ChatDao {
     @Query("SELECT * FROM users")
     suspend fun getAllMatches() : List<UserDataModel>
 
+    @Query("SELECT * FROM users WHERE userID = :id")
+    suspend fun getUserProfile(id : String) : UserDataModel
+
     @Query("SELECT * FROM messages WHERE senderID = :userID OR (senderID = :myID AND receiverID = :userID)")
     fun getMessagesWithUser(userID : String, myID : String) : Flow<Array<MessageDataModel>>
 
