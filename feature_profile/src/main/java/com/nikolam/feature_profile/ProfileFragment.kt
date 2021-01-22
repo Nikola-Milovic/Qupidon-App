@@ -1,7 +1,6 @@
 package com.nikolam.feature_profile
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,9 +24,12 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val stateObserver = Observer<ProfileViewModel.ViewState> {
+        Timber.d(it.profile.toString())
         if (it.isSuccess){
             binding.nameTextView.text = it.profile?.name
+            binding.bioTextView.text = it.profile?.bio
             Glide.with(binding.profileImage).load(it.profile?.profilePictureUrl).into(binding.profileImage)
+            Timber.d(it.profile?.profilePictureUrl)
         }
     }
 
@@ -39,7 +41,6 @@ class ProfileFragment : Fragment() {
         _binding = ProfileFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // TODO load the basic data from the db first
         arguments?.let {
             val id = it.getString("id")
             viewModel.setID(id ?: "")
