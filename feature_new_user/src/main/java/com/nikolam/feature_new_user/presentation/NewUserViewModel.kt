@@ -4,73 +4,69 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.nikolam.common.navigation.MainScreenDeepLinkUri
 import com.nikolam.common.navigation.NavManager
-import com.nikolam.common.navigation.NewUserDeepLinkUri
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
+import com.nikolam.data.db.AppRepository
+import com.nikolam.data.db.models.ProfileDataModel
 import com.nikolam.feature_new_user.data.model.NewProfileModel
-import com.nikolam.feature_new_user.domain.CreateChatUserUseCase
-import com.nikolam.feature_new_user.domain.SaveProfilePictureUseCase
-import com.nikolam.feature_new_user.domain.SaveProfileUseCase
+import com.nikolam.feature_new_user.domain.NewUserRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class NewUserViewModel(
     private val navManager: NavManager,
-    private val saveProfileUseCase: SaveProfileUseCase,
-    private val saveProfilePictureUseCase: SaveProfilePictureUseCase,
-    private val createChatUserUseCase: CreateChatUserUseCase
+    private val appRepository: AppRepository,
+    private val repo: NewUserRepository
 ) : BaseViewModel<NewUserViewModel.ViewState, NewUserViewModel.Action>(ViewState()) {
 
-    private lateinit var id : String
+    private lateinit var id: String
 
     override fun onReduceState(viewAction: Action) = when (viewAction) {
-        Action.SaveSucess -> state
+        Action.SaveSuccess -> state
     }
 
     override fun onLoadData() {
         super.onLoadData()
         viewModelScope.launch {
-            createChatUserUseCase.execute(id)
+            repo.createChatUser(id)
         }
     }
 
-    fun saveProfile(profile : NewProfileModel, path : String) {
+    fun saveProfile(profile: NewProfileModel, path: String) {
         viewModelScope.launch {
-            saveProfileUseCase.execute(id, profile).let {
-                when (it) {
-                    is SaveProfileUseCase.Result.Success -> {
-                        if (it.response.status == 200) {
-                            navigateToMainScreen(id)
-                        }
-                    }
+            repo.saveProfile(id, profile).let { response ->
+                if (response.status == 200) {
+                    navigateToMainScreen(id)
                 }
             }
         }
 
-        viewModelScope.launch {
-            saveProfilePictureUseCase.execute(id, path).let {
-                Timber.d(it.toString())
-            }
+    viewModelScope.launch {
+        repo.uploadProfilePic(id, path).let {
+            Timber.d(it.toString())
         }
     }
 
-    fun setID(id : String) {
-        this.id = id
-    }
+    appRepository.saveProfile(profile = ProfileDataModel(id, profile.name, null, profile.bio, profile.gender, null))
+}
 
-    fun navigateToMainScreen(id: String) {
-        val uri = Uri.parse("$MainScreenDeepLinkUri/?id=$id")
-        navManager.navigate(uri)
-    }
+fun setID(id: String) {
+    this.id = id
+}
 
-    internal data class ViewState(
-        val isSuccess: Boolean = false,
-        val isLoading: Boolean = false,
-        val isError: Boolean = false
-    ) : BaseViewState
+fun navigateToMainScreen(id: String) {
+    val uri = Uri.parse("$MainScreenDeepLinkUri/?id=$id")
+    navManager.navigate(uri)
+}
 
-    internal sealed class Action : BaseAction {
-        object SaveSucess : Action()
-    }
+internal data class ViewState(
+    val isSuccess: Boolean = false,
+    val isLoading: Boolean = false,
+    val isError: Boolean = false
+) : BaseViewState
+
+internal sealed class Action : BaseAction {
+    object SaveSuccess : Action()
+}
 }

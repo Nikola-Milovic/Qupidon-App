@@ -1,6 +1,8 @@
 package com.nikolam.feature_profile
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
@@ -9,6 +11,7 @@ import com.nikolam.domain.models.ProfileDomainModel
 import kotlinx.coroutines.launch
 
 internal class ProfileViewModel(
+    private val navManager: NavManager,
     private val getProfileUseCase: GetProfileUseCase
 
 ) : BaseViewModel<ProfileViewModel.ViewState, ProfileViewModel.Action>(ViewState()) {
@@ -52,10 +55,10 @@ internal class ProfileViewModel(
         this.id = id
     }
 
-//    fun navigateToChat() {
-//        val uri = Uri.parse("$ChatDeepLinkUri/?id=$id")
-//        navManager.navigate(uri)
-//    }
+    fun navigateToEditProfile() {
+        val uri = Uri.parse("qupidon://editProfile")
+        navManager.navigate(uri)
+    }
 
 
     internal data class ViewState(

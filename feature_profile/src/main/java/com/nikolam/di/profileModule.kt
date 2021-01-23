@@ -11,7 +11,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val profileModule = module {
-    viewModel { ProfileViewModel(get()) }
+    viewModel { ProfileViewModel(get(), get()) }
     single<ProfileRepository> {ProfileRepositoryImpl(get())}
     single {GetProfileUseCase(get())}
     single { provideProfileService(get(named("app")))}

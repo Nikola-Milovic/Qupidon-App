@@ -2,6 +2,8 @@ package com.nikolam.feature_new_user.data
 
 
 import android.content.Context
+import com.nikolam.data.db.AppDatabase
+import com.nikolam.data.db.AppRepository
 import com.nikolam.feature_new_user.data.model.NewProfileModel
 import com.nikolam.feature_new_user.data.model.SaveResponse
 import com.nikolam.feature_new_user.domain.NewUserRepository
@@ -20,15 +22,13 @@ import kotlin.coroutines.suspendCoroutine
 
 class NewUserRepositoryImpl(
         private val newUserService: NewUserService,
-        private val chatUserService: ChatUserService,
-        private val context: Context
+        private val chatUserService: ChatUserService
 ) :
     NewUserRepository {
 
     @ExperimentalCoroutinesApi
     override suspend fun saveProfile(id: String, profileModel: NewProfileModel): SaveResponse =
         suspendCoroutine { cont ->
-
             Timber.d(profileModel.toString())
             val call = newUserService.saveProfile(id, profileModel)
             call.enqueue(object : Callback<Void> {

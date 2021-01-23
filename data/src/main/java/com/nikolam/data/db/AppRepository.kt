@@ -1,6 +1,7 @@
 package com.nikolam.data.db
 
 import com.nikolam.data.db.models.MatchedUsersResponse
+import com.nikolam.data.db.models.ProfileDataModel
 import com.nikolam.data.db.models.UserDataModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -56,6 +57,13 @@ class AppRepository(private val db: AppDatabase,
                 )
             }
         }
-
     }
+
+
+    fun saveProfile(profile : ProfileDataModel){
+        GlobalScope.launch(Dispatchers.IO + NonCancellable) {
+            db.profileDao().addProfile(profile)
+        }
+    }
+
 }

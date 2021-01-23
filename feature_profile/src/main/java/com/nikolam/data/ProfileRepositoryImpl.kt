@@ -4,6 +4,10 @@ import com.nikolam.data.models.ProfileDataModel
 import com.nikolam.data.models.toDomainModel
 import com.nikolam.domain.ProfileRepository
 import com.nikolam.domain.models.ProfileDomainModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 import timber.log.Timber

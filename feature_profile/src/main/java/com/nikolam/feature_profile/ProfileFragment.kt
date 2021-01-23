@@ -47,6 +47,10 @@ class ProfileFragment : Fragment() {
             Timber.d("The id is $id")
         }
 
+        binding.editProfileButton.setOnClickListener {
+            viewModel.navigateToEditProfile()
+        }
+
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
         viewModel.getProfile()

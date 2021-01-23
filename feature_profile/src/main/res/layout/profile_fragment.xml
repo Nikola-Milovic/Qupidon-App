@@ -7,6 +7,12 @@
     android:gravity="center"
     tools:context=".ProfileFragment">
 
+    <Button
+        android:id="@+id/edit_profile_button"
+        android:text="Edit profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -16,7 +22,7 @@
 
             <ImageView
                 android:id="@+id/profile_image"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="200dp"
                 tools:src="@drawable/com_facebook_profile_picture_blank_square" />
 

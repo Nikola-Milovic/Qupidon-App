@@ -64,4 +64,12 @@
             android:name="id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.nikolam.feature_profile.EditProfileFragment"
+        android:label="EditProfileFragment">
+        <deepLink
+            android:id="@+id/deepLink3"
+            app:uri="qupidon://editProfile" />
+    </fragment>
 </navigation>
