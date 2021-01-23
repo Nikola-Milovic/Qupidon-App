@@ -23,6 +23,8 @@ internal class ProfileViewModel(
 //    val profileLiveData: LiveData<ProfileModel>
 //    get() = _profileLiveData
 
+    private lateinit var currentProfile : ProfileDomainModel
+
 
     override fun onReduceState(viewAction: Action) = when (viewAction) {
         is Action.LoadingProfileSuccess -> state.copy(
@@ -42,6 +44,7 @@ internal class ProfileViewModel(
         viewModelScope.launch {
             repository.getProfile(id).let { profile ->
                 //TODO add error handling
+                currentProfile = profile
                 sendAction(Action.LoadingProfileSuccess(profile))
             }
         }

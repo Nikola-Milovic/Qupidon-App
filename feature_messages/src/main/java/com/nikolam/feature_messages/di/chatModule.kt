@@ -8,7 +8,7 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val chatModule = module {
-    viewModel{ ChatViewModel(get(), get(), get()) }
+    viewModel{ ChatViewModel(get(), get(), get(), get()) }
     single{ GetChatMessagesUseCase(get()) }
     single{ GetUserProfileUseCase(get()) }
 }

@@ -60,7 +60,7 @@ class ChatFragment : Fragment() {
         }
 
         binding.goBackImageView.setOnClickListener {
-            activity?.supportFragmentManager?.popBackStackImmediate()
+            viewModel.goBack()
         }
 
         adapter = ChatAdapter()

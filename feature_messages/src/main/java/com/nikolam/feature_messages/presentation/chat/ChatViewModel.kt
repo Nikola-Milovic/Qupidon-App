@@ -3,6 +3,7 @@ package com.nikolam.feature_messages.presentation.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 
 internal class ChatViewModel(
         private val messageManager: com.nikolam.data.messaging.MessagingManager,
+        private val navManager: NavManager,
         private val getChatMessagesUseCase: GetChatMessagesUseCase,
         private val getUserProfileUseCase: GetUserProfileUseCase
 ) : BaseViewModel<ChatViewModel.ViewState, ChatViewModel.Action>(ViewState()) {
@@ -74,6 +76,10 @@ internal class ChatViewModel(
 
     fun sendMessage(text: String) {
         messageManager.sendMessage(id, text)
+    }
+
+    fun goBack(){
+        navManager.popBackStack()
     }
 
 //    fun navigate(id: String) {

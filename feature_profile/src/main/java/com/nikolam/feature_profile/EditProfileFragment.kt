@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.nikolam.di.profileModule
+import com.nikolam.domain.models.ProfileDomainModel
 import com.nikolam.feature_profile.databinding.EditProfileFragmentBinding
 import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
@@ -48,7 +49,13 @@ class EditProfileFragment : Fragment() {
         setupProfileImagePicker()
 
         binding.cancelButton.setOnClickListener {
-           viewModel.goBack()
+           viewModel.goBack( )
+        }
+
+        binding.saveChangesButton.setOnClickListener {
+            viewModel.saveProfile(ProfileDomainModel(email = "", name = binding.nameEditText.text.toString(),
+bio = binding.bioEditText.text.toString(), gender = "", profilePictureUrl = ""
+                ))
         }
 
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
