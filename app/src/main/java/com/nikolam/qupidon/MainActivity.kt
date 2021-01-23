@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
         navManager.setOnNavEvent {
             navController.navigate(it)
         }
+
+        navManager.setPopBackStack{
+            navController.popBackStack()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

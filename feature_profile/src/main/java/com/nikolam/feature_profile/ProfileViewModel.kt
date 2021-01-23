@@ -6,13 +6,14 @@ import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
-import com.nikolam.domain.GetProfileUseCase
+import com.nikolam.domain.ProfileRepository
 import com.nikolam.domain.models.ProfileDomainModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 internal class ProfileViewModel(
     private val navManager: NavManager,
-    private val getProfileUseCase: GetProfileUseCase
+    private val repository: ProfileRepository
 
 ) : BaseViewModel<ProfileViewModel.ViewState, ProfileViewModel.Action>(ViewState()) {
 
@@ -39,16 +40,15 @@ internal class ProfileViewModel(
 
     fun getProfile() {
         viewModelScope.launch {
-            getProfileUseCase.execute(id).let {
-                when (it) {
-                    is GetProfileUseCase.Result.Success -> {
-                        sendAction(Action.LoadingProfileSuccess(it.profile))
-                    }
-                    is GetProfileUseCase.Result.Error -> {
-                    }
-                }
+            repository.getProfile(id).let { profile ->
+                //TODO add error handling
+                sendAction(Action.LoadingProfileSuccess(profile))
             }
         }
+    }
+
+    fun goBack(){
+        navManager.popBackStack()
     }
 
     fun setID(id: String) {
@@ -60,6 +60,9 @@ internal class ProfileViewModel(
         navManager.navigate(uri)
     }
 
+    fun saveProfile(profile : ProfileDomainModel){
+        Timber.d("Save profile $profile")
+    }
 
     internal data class ViewState(
         val isSuccess: Boolean = false,

@@ -2,7 +2,6 @@ package com.nikolam.di
 
 import com.nikolam.data.ProfileRepositoryImpl
 import com.nikolam.data.ProfileService
-import com.nikolam.domain.GetProfileUseCase
 import com.nikolam.domain.ProfileRepository
 import com.nikolam.feature_profile.ProfileViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -13,7 +12,6 @@ import retrofit2.Retrofit
 val profileModule = module {
     viewModel { ProfileViewModel(get(), get()) }
     single<ProfileRepository> {ProfileRepositoryImpl(get())}
-    single {GetProfileUseCase(get())}
     single { provideProfileService(get(named("app")))}
 }
 

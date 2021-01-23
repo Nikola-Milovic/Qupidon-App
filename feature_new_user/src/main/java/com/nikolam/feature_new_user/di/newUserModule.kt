@@ -10,13 +10,10 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 
 internal val newUserModule = module {
-    viewModel { NewUserViewModel(get(), get(), get(), get(), get()) }
+    viewModel { NewUserViewModel(get(), get(), get()) }
     single <NewUserRepository> { NewUserRepositoryImpl(get(), get())}
     single { provideNewChatUserService(get(named("chat"))) }
     single { provideNewUserService(get(named("app"))) }
-    single { SaveProfileUseCase(get()) }
-    single { SaveProfilePictureUseCase(get()) }
-    single { CreateChatUserUseCase(get()) }
 }
 
 fun provideNewUserService(retrofit: Retrofit): NewUserService {

@@ -1,5 +1,6 @@
 package com.nikolam.feature_profile
 
+import android.R
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
@@ -16,6 +18,7 @@ import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import timber.log.Timber
+
 
 class EditProfileFragment : Fragment() {
 
@@ -35,14 +38,18 @@ class EditProfileFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = EditProfileFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
         setupProfileImagePicker()
+
+        binding.cancelButton.setOnClickListener {
+           viewModel.goBack()
+        }
 
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
