@@ -4,6 +4,7 @@ import com.nikolam.common.BaseChatUserApiUrl
 import com.nikolam.common.BaseImageAPIUrl
 import com.nikolam.common.BaseUserAPIUrl
 import com.nikolam.feature_new_user.data.model.NewProfileModel
+import com.nikolam.feature_new_user.data.model.SaveProfilePictureResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -17,6 +18,6 @@ interface NewUserService {
 
     @Multipart
     @POST("$BaseImageAPIUrl/ppic")
-    fun postImage(@Part("user_id") id : RequestBody,@Part image : MultipartBody.Part) : Call<Void>
+    fun postImage(@Part("user_id") id : RequestBody,@Part image : MultipartBody.Part) : Call<SaveProfilePictureResponse>
 }
 

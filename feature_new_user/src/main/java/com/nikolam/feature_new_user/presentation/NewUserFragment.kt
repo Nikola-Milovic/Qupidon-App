@@ -56,6 +56,9 @@ class NewUserFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val stateObserver = Observer<NewUserViewModel.ViewState> {
+        if (it.isSuccess){
+            viewModel.navigateToMainScreen()
+        }
     }
 
     lateinit var profilePicture : Image

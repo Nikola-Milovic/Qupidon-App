@@ -60,10 +60,8 @@ class AppRepository(private val db: AppDatabase,
     }
 
 
-    fun saveProfile(profile : ProfileDataModel){
-        GlobalScope.launch(Dispatchers.IO + NonCancellable) {
-            db.profileDao().addProfile(profile)
-        }
+    suspend fun saveProfile(profile : ProfileDataModel){
+        db.profileDao().addProfile(profile)
     }
 
 }

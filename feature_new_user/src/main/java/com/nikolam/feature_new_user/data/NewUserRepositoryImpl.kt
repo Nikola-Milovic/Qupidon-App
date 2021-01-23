@@ -5,6 +5,7 @@ import android.content.Context
 import com.nikolam.data.db.AppDatabase
 import com.nikolam.data.db.AppRepository
 import com.nikolam.feature_new_user.data.model.NewProfileModel
+import com.nikolam.feature_new_user.data.model.SaveProfilePictureResponse
 import com.nikolam.feature_new_user.data.model.SaveResponse
 import com.nikolam.feature_new_user.domain.NewUserRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,7 +30,6 @@ class NewUserRepositoryImpl(
     @ExperimentalCoroutinesApi
     override suspend fun saveProfile(id: String, profileModel: NewProfileModel): SaveResponse =
         suspendCoroutine { cont ->
-            Timber.d(profileModel.toString())
             val call = newUserService.saveProfile(id, profileModel)
             call.enqueue(object : Callback<Void> {
                 override fun onResponse(
@@ -51,7 +51,7 @@ class NewUserRepositoryImpl(
         chatUserService.createChatUser(id).enqueue(EmptyCallback())
     }
 
-    override suspend fun uploadProfilePic(id: String, filePath: String): SaveResponse =
+    override suspend fun uploadProfilePic(id: String, filePath: String): SaveProfilePictureResponse =
         suspendCoroutine { cont ->
            // val userID = RequestBody.create(MediaType.parse("multipart/form-data"), id);
             val file = File(filePath)
@@ -62,12 +62,14 @@ class NewUserRepositoryImpl(
             val userID = RequestBody.create(MediaType.parse("multipart/form-data"), id)
 
             val req = newUserService.postImage(userID, body)
-            req.enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    cont.resume(SaveResponse(response.code()))
+            req.enqueue(object : Callback<SaveProfilePictureResponse> {
+                override fun onResponse(call: Call<SaveProfilePictureResponse>, response: Response<SaveProfilePictureResponse>) {
+                    if (response.code() == 200) {
+                        cont.resume(response.body()!!)
+                    }
                 }
 
-                override fun onFailure(call: Call<Void>, t: Throwable) {
+                override fun onFailure(call: Call<SaveProfilePictureResponse>, t: Throwable) {
                     Timber.e(t)
                     cont.resumeWithException(t)
                 }

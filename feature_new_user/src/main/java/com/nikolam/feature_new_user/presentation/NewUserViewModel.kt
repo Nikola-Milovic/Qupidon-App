@@ -11,8 +11,9 @@ import com.nikolam.data.db.AppRepository
 import com.nikolam.data.db.models.ProfileDataModel
 import com.nikolam.feature_new_user.data.model.NewProfileModel
 import com.nikolam.feature_new_user.domain.NewUserRepository
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
+import java.util.*
 
 internal class NewUserViewModel(
     private val navManager: NavManager,
@@ -23,7 +24,14 @@ internal class NewUserViewModel(
     private lateinit var id: String
 
     override fun onReduceState(viewAction: Action) = when (viewAction) {
-        Action.SaveSuccess -> state
+        Action.SaveSuccess -> state.copy(
+            isSuccess = true
+        )
+        Action.SaveLoading -> state.copy(
+            isSuccess = false,
+            isError = false,
+            isLoading = true
+        )
     }
 
     override fun onLoadData() {
@@ -34,39 +42,85 @@ internal class NewUserViewModel(
     }
 
     fun saveProfile(profile: NewProfileModel, path: String) {
-        viewModelScope.launch {
-            repo.saveProfile(id, profile).let { response ->
-                if (response.status == 200) {
-                    navigateToMainScreen(id)
+
+        sendAction(Action.SaveLoading)
+
+        var profilePicUrl: String = ""
+
+        runBlocking {
+            viewModelScope.launch(Dispatchers.IO + NonCancellable) {
+                Timber.d("launch ${Date()}")
+
+                val profileAsync = async {
+                    repo.saveProfile(id, profile).let { response ->
+                        Timber.d(" Response code is ${response.status}")
+                        if (response.status == 200) {
+                            //  navigateToMainScreen(id)
+                        }
+                    }
+                }
+
+                val pictureAsync = async {
+                    repo.uploadProfilePic(id, path).let {
+                        profilePicUrl = it.image_link
+                        Timber.d(it.image_link)
+                    }
+                }
+
+                val deferds = listOf(pictureAsync, profileAsync)
+
+                //Try catch
+
+
+                //With contenxt MAIN THREAD
+                try {
+                    deferds.awaitAll()
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+
+                Timber.d("SAVE PROFILE TO DB $profilePicUrl ${Date()}")
+
+                withContext(Dispatchers.IO) {
+                    appRepository.saveProfile(
+                        profile = ProfileDataModel(
+                            id,
+                            profile.name,
+                            profilePicUrl,
+                            profile.bio,
+                            profile.gender,
+                            null
+                        )
+                    )
+                }
+
+                withContext(Dispatchers.Main){
+                    Timber.d("Navigate to main screen ${Date()}")
+                    sendAction(Action.SaveSuccess)
                 }
             }
         }
 
-    viewModelScope.launch {
-        repo.uploadProfilePic(id, path).let {
-            Timber.d(it.toString())
-        }
+
     }
 
-    appRepository.saveProfile(profile = ProfileDataModel(id, profile.name, null, profile.bio, profile.gender, null))
-}
+    fun setID(id: String) {
+        this.id = id
+    }
 
-fun setID(id: String) {
-    this.id = id
-}
+    fun navigateToMainScreen() {
+        val uri = Uri.parse("$MainScreenDeepLinkUri/?id=$id")
+        navManager.navigate(uri)
+    }
 
-fun navigateToMainScreen(id: String) {
-    val uri = Uri.parse("$MainScreenDeepLinkUri/?id=$id")
-    navManager.navigate(uri)
-}
+    internal data class ViewState(
+        val isSuccess: Boolean = false,
+        val isLoading: Boolean = false,
+        val isError: Boolean = false
+    ) : BaseViewState
 
-internal data class ViewState(
-    val isSuccess: Boolean = false,
-    val isLoading: Boolean = false,
-    val isError: Boolean = false
-) : BaseViewState
-
-internal sealed class Action : BaseAction {
-    object SaveSuccess : Action()
-}
+    internal sealed class Action : BaseAction {
+        object SaveSuccess : Action()
+        object SaveLoading : Action()
+    }
 }
