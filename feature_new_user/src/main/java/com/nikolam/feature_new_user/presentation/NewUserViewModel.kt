@@ -69,10 +69,6 @@ internal class NewUserViewModel(
 
                 val deferds = listOf(pictureAsync, profileAsync)
 
-                //Try catch
-
-
-                //With contenxt MAIN THREAD
                 try {
                     deferds.awaitAll()
                 } catch (e: Exception) {
@@ -100,8 +96,6 @@ internal class NewUserViewModel(
                 }
             }
         }
-
-
     }
 
     fun setID(id: String) {

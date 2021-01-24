@@ -11,14 +11,10 @@ import retrofit2.Retrofit
 
 val mainScreenModule = module{
 
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get()) }
     single <MainRepository> { MainRepositoryImpl(get(), get(), get())}
     single { provideMainScreenService(get(named("app"))) }
     single { provideMainScreenChatService(get(named("chat"))) }
-    single { GetProfilesUseCase(get()) }
-    single { InteractionUseCase(get()) }
-    single { GetMatchesUseCase(get()) }
-    single { SaveTokenUseCase(get()) }
 }
 
 fun provideMainScreenService(retrofit: Retrofit): MainScreenService {

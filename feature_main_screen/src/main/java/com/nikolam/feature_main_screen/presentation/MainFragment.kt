@@ -83,8 +83,6 @@ class MainFragment : Fragment() {
 
         viewModel.getProfiles()
 
-        viewModel.getMatches()
-
         return view
     }
 
