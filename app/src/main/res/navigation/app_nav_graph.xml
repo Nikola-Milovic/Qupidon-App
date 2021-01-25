@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.nikolam.feature_profile.ProfileFragment"
+        android:name="com.nikolam.feature_profile.presenter.profile.ProfileFragment"
         android:label="ProfileFragment">
         <deepLink
             android:id="@+id/deepLink2"
@@ -66,10 +66,13 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.nikolam.feature_profile.EditProfileFragment"
+        android:name="com.nikolam.feature_profile.presenter.edit_profile.EditProfileFragment"
         android:label="EditProfileFragment">
         <deepLink
             android:id="@+id/deepLink3"
-            app:uri="qupidon://editProfile" />
+            app:uri="qupidon://editProfile/?id={id}"/>
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 </navigation>

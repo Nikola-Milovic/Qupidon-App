@@ -10,6 +10,7 @@ import com.nikolam.common.navigation.ProfileDeepLinkUri
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
+import com.nikolam.data.messaging.MessagingManager
 import com.nikolam.feature_main_screen.data.model.ProfileModel
 import com.nikolam.feature_main_screen.domain.MainRepository
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class MainViewModel(private val navManager: NavManager,
-                             private val messagingManager: com.nikolam.data.messaging.MessagingManager,
+                             private val messagingManager: MessagingManager,
                              private val repository: MainRepository
 ) : BaseViewModel<MainViewModel.ViewState, MainViewModel.Action>(ViewState()) {
 

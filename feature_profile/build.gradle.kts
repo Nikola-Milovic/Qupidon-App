@@ -70,6 +70,7 @@ dependencies {
     annotationProcessor(LibraryDependency.GLIDE_COMPILER)
 
     implementation(project(":common"))
+    implementation(project(":data"))
 
     addTestDependencies()
 }

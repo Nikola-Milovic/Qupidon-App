@@ -1,9 +1,6 @@
 package com.nikolam.feature_new_user.data
 
 
-import android.content.Context
-import com.nikolam.data.db.AppDatabase
-import com.nikolam.data.db.AppRepository
 import com.nikolam.feature_new_user.data.model.NewProfileModel
 import com.nikolam.feature_new_user.data.model.SaveProfilePictureResponse
 import com.nikolam.feature_new_user.data.model.SaveResponse

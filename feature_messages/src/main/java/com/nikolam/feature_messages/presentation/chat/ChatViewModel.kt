@@ -7,6 +7,7 @@ import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
+import com.nikolam.data.messaging.MessagingManager
 import com.nikolam.feature_messages.domain.GetChatMessagesUseCase
 import com.nikolam.feature_messages.domain.GetUserProfileUseCase
 import com.nikolam.feature_messages.domain.models.MessageDomainModel
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class ChatViewModel(
-        private val messageManager: com.nikolam.data.messaging.MessagingManager,
+        private val messageManager: MessagingManager,
         private val navManager: NavManager,
         private val getChatMessagesUseCase: GetChatMessagesUseCase,
         private val getUserProfileUseCase: GetUserProfileUseCase

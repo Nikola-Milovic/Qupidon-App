@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProfileDao {
-    @Query("SELECT * FROM profile")
-    suspend fun getProfile() : List<ProfileDataModel>
+    @Query("SELECT * FROM profile WHERE userID = :id")
+    suspend fun getProfile(id : String) : ProfileDataModel
 
     @Update
     suspend fun updateProfile(profileDataModel: ProfileDataModel)

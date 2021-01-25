@@ -16,9 +16,9 @@ import timber.log.Timber
 import java.util.*
 
 internal class NewUserViewModel(
-    private val navManager: NavManager,
-    private val appRepository: AppRepository,
-    private val repo: NewUserRepository
+        private val navManager: NavManager,
+        private val appRepository: AppRepository,
+        private val repo: NewUserRepository
 ) : BaseViewModel<NewUserViewModel.ViewState, NewUserViewModel.Action>(ViewState()) {
 
     private lateinit var id: String

@@ -14,7 +14,7 @@ interface MainScreenService {
     fun getProfiles(@Query("id") id: String): Call<ArrayList<ProfileModel>>
 
     @GET("$BaseMatchAPIUrl/matches/")
-    fun getMatchedUsers(@Query("id") id: String): Call<com.nikolam.data.db.models.MatchedUsersResponse>
+    fun getMatchedUsers(@Query("id") id: String): Call<MatchedUsersResponse>
 
     @POST("$BaseMatchAPIUrl/like/")
     fun likeUser(@Query("id") id: String, @Body requestBody: LikedUser) : Call<Void>

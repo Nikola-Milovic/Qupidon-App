@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".ProfileFragment">
+    tools:context=".presenter.profile.ProfileFragment">
 
     <Button
         android:id="@+id/edit_profile_button"

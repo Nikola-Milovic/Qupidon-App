@@ -1,4 +1,4 @@
-package com.nikolam.feature_profile
+package com.nikolam.feature_profile.presenter.profile
 
 import android.content.Context
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.nikolam.di.profileModule
+import com.nikolam.feature_profile.di.profileModule
 import com.nikolam.feature_profile.databinding.ProfileFragmentBinding
 import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules

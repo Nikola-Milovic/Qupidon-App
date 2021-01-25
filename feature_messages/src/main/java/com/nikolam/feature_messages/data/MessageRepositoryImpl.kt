@@ -20,7 +20,7 @@ class MessageRepositoryImpl (private val db : AppDatabase) : MessageRepository{
     }
 
 
-    override suspend fun getMessagesWithUser(userID: String, myID : String) : Flow<Array<com.nikolam.data.db.models.MessageDataModel>> {
+    override suspend fun getMessagesWithUser(userID: String, myID : String) : Flow<Array<MessageDataModel>> {
         return db.chatDao().getMessagesWithUser(userID, myID)
     }
 

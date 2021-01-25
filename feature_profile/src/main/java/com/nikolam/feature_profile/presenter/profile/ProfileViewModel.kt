@@ -1,4 +1,4 @@
-package com.nikolam.feature_profile
+package com.nikolam.feature_profile.presenter.profile
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
@@ -6,10 +6,12 @@ import com.nikolam.common.navigation.NavManager
 import com.nikolam.common.viewmodel.BaseAction
 import com.nikolam.common.viewmodel.BaseViewModel
 import com.nikolam.common.viewmodel.BaseViewState
-import com.nikolam.domain.ProfileRepository
-import com.nikolam.domain.models.ProfileDomainModel
+import com.nikolam.feature_profile.data.models.SaveProfileModel
+import com.nikolam.feature_profile.domain.ProfileRepository
+import com.nikolam.feature_profile.domain.models.ProfileDomainModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.withContext
 
 internal class ProfileViewModel(
     private val navManager: NavManager,
@@ -42,7 +44,11 @@ internal class ProfileViewModel(
 
     fun getProfile() {
         viewModelScope.launch {
-            repository.getProfile(id).let { profile ->
+            withContext(Dispatchers.IO) {
+                repository.getProfile(
+                    id
+                )
+            }.let { profile ->
                 //TODO add error handling
                 currentProfile = profile
                 sendAction(Action.LoadingProfileSuccess(profile))
@@ -61,10 +67,6 @@ internal class ProfileViewModel(
     fun navigateToEditProfile() {
         val uri = Uri.parse("qupidon://editProfile")
         navManager.navigate(uri)
-    }
-
-    fun saveProfile(profile : ProfileDomainModel){
-        Timber.d("Save profile $profile")
     }
 
     internal data class ViewState(

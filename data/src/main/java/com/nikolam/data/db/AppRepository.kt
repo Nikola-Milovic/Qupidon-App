@@ -64,4 +64,12 @@ class AppRepository(private val db: AppDatabase,
         db.profileDao().addProfile(profile)
     }
 
+    suspend fun getProfile(id : String) : ProfileDataModel{
+        return db.profileDao().getProfile(id)
+    }
+
+    suspend fun updateProfile(profile : ProfileDataModel){
+        db.profileDao().updateProfile(profile)
+    }
+
 }

@@ -13,7 +13,7 @@ import retrofit2.http.*
 
 
 interface NewUserService {
-    @POST("$BaseUserAPIUrl/profile/")
+    @POST("$BaseUserAPIUrl/profile/new")
     fun saveProfile(@Query("id") id: String, @Body profile: NewProfileModel): Call<Void>
 
     @Multipart
