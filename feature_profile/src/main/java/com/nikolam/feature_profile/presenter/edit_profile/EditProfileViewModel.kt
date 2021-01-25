@@ -64,12 +64,6 @@ internal class EditProfileViewModel(
         this.id = id
     }
 
-    fun navigateToEditProfile() {
-        //TODO remove passing the id through arguments everytime
-        val uri = Uri.parse("qupidon://editProfile/?id=$id")
-        navManager.navigate(uri)
-    }
-
     fun saveProfile(profile : SaveProfileModel){
         viewModelScope.launch {
             val newProfile = currentProfile.copy(

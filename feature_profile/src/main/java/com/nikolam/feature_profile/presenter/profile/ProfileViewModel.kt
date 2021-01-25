@@ -65,7 +65,8 @@ internal class ProfileViewModel(
     }
 
     fun navigateToEditProfile() {
-        val uri = Uri.parse("qupidon://editProfile")
+        //TODO remove passing the id through arguments everytime
+        val uri = Uri.parse("qupidon://editProfile/?id=$id")
         navManager.navigate(uri)
     }
 

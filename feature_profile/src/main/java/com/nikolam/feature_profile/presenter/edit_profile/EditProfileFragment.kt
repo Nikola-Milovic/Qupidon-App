@@ -32,7 +32,7 @@ class EditProfileFragment : Fragment() {
         Timber.d(it.profile.toString())
         if (it.isSuccess) {
             binding.nameEditText.hint = it.profile?.name
-            binding.nameEditText.hint = it.profile?.bio
+            binding.bioEditText.hint = it.profile?.bio
             Glide.with(binding.profileImage).load(it.profile?.profilePictureUrl).into(binding.profileImage)
         }
     }
