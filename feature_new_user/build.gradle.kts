@@ -72,6 +72,8 @@ dependencies {
     implementation(LibraryDependency.GLIDE)
     annotationProcessor(LibraryDependency.GLIDE_COMPILER)
 
+    implementation("com.github.Jay-Goo:RangeSeekBar:v3.0.0")
+
     implementation(project(":common"))
     implementation(project(":data"))
 

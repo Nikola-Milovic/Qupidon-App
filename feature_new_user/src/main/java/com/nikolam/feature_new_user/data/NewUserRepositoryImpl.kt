@@ -27,6 +27,7 @@ class NewUserRepositoryImpl(
     @ExperimentalCoroutinesApi
     override suspend fun saveProfile(id: String, profileModel: NewProfileModel): SaveResponse =
         suspendCoroutine { cont ->
+            Timber.d(profileModel.toString())
             val call = newUserService.saveProfile(id, profileModel)
             call.enqueue(object : Callback<Void> {
                 override fun onResponse(
