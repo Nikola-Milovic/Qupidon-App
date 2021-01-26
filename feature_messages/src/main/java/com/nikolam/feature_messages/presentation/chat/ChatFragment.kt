@@ -1,23 +1,19 @@
 package com.nikolam.feature_messages.presentation.chat
 
+import android.app.Activity
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.nikolam.feature_messages.R
+import com.nikolam.common.extensions.hideKeyboard
 import com.nikolam.feature_messages.databinding.ChatFragmentBinding
-import com.nikolam.feature_messages.databinding.ChatListFragmentBinding
 import com.nikolam.feature_messages.di.chatModule
-import com.nikolam.feature_messages.domain.models.MessageDomainModel
-import com.nikolam.feature_messages.presentation.chat_list.ChatListAdapter
-import com.nikolam.feature_messages.presentation.chat_list.ChatListViewModel
 import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
@@ -42,9 +38,9 @@ class ChatFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         _binding = ChatFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -57,6 +53,8 @@ class ChatFragment : Fragment() {
 
         binding.sendMessageButton.setOnClickListener {
             viewModel.sendMessage(binding.messageEditText.text.toString())
+            binding.messageEditText.text.clear()
+            hideKeyboardFrom(requireContext(), binding.messageEditText)
         }
 
         binding.goBackImageView.setOnClickListener {
@@ -69,7 +67,6 @@ class ChatFragment : Fragment() {
 
         binding.messagesRecyclerView.adapter = adapter
 
-
         viewModel.stateLiveData.observe(viewLifecycleOwner, stateObserver)
 
         viewModel.messageLiveData.observe(viewLifecycleOwner, {
@@ -80,6 +77,11 @@ class ChatFragment : Fragment() {
         viewModel.getProfile()
 
         return view
+    }
+
+    private fun hideKeyboardFrom(context: Context, view: View) {
+        val imm: InputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     override fun onAttach(context: Context) {
