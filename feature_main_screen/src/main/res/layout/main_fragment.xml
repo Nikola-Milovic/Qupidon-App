@@ -42,11 +42,10 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/profile_image"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/images_viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                tools:src="@drawable/com_facebook_profile_picture_blank_square" />
+                android:layout_height="300dp"/>
 
             <TextView
                 android:id="@+id/name_textView"

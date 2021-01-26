@@ -2,6 +2,7 @@ package com.nikolam.feature_main_screen.presentation
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.graphics.Picture
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,14 +26,16 @@ class MainFragment : Fragment() {
 
     private val binding get() = _binding!!
 
+    private lateinit var picturesAdapter : PicturePagerAdapter
+
     private val stateObserver = Observer<MainViewModel.ViewState> {
         if (it.isSuccess){
            viewModel.profileLiveData.observe(this, Observer { profile ->
                Timber.d(it.toString())
-               Glide.with(binding.profileImage)
-                       .load(profile.profilePicUrl)
-                       .apply(RequestOptions.centerCropTransform())
-                       .into(binding.profileImage)
+
+               picturesAdapter.addImages(arrayListOf("https://picsum.photos/300/300",
+                       "https://picsum.photos/300/300",
+                       "https://picsum.photos/300/300"))
 
                binding.nameTextView.text = profile.name
                binding.bioTextView.text = profile.bio
@@ -62,6 +65,10 @@ class MainFragment : Fragment() {
                 viewModel.saveFCMToken(token)
             }
         }
+
+        picturesAdapter = PicturePagerAdapter(requireContext())
+
+        binding.imagesViewPager.adapter = picturesAdapter
 
         binding.matchAcceptButton.setOnClickListener {
             viewModel.likeUser()

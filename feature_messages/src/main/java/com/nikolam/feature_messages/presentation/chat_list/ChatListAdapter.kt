@@ -50,6 +50,7 @@ class ChatListAdapter (private val listener : ChatListItemClickListener) :
 
             Glide.with(itemBinding.profilePicImageView).load(data.profilePicture).into(itemBinding.profilePicImageView)
 
+            //Glide.with(itemBinding.profilePicImageView).load("https://picsum.photos/300/300").into(itemBinding.profilePicImageView)
             itemBinding.root.setOnClickListener {
                 listener.onChatItemClicked(data.userID)
             }
