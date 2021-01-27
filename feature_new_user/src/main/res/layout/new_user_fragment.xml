@@ -98,6 +98,7 @@
                 app:rsb_min="18"
                 app:rsb_max="90"
                 app:rsb_min_interval="1"
+                app:rsb_indicator_background_color="@color/com_facebook_blue"
                 app:rsb_indicator_height="wrap_content"
                 app:rsb_indicator_padding_bottom="10dp"
                 app:rsb_indicator_padding_left="10dp"
@@ -110,6 +111,7 @@
                 app:rsb_tick_mark_text_array="@array/markArray5"
                 app:rsb_tick_mark_layout_gravity="bottom"
                 app:rsb_tick_mark_text_margin="15dp"
+                app:rsb_tick_mark_text_color= "@color/com_facebook_blue"
                 />
 
             <Button

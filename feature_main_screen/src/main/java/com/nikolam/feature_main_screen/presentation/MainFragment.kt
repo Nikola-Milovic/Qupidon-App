@@ -37,6 +37,8 @@ class MainFragment : Fragment() {
                        "https://picsum.photos/300/300",
                        "https://picsum.photos/300/300"))
 
+               binding.interestsTag.tags = listOf("Horses", "Running", "Music", "Dancing")
+
                binding.nameTextView.text = profile.name
                binding.bioTextView.text = profile.bio
            })

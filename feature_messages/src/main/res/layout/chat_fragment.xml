@@ -22,7 +22,7 @@
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_back_arrow"
-            android:tint="@color/design_default_color_secondary" />
+            android:tint= "@color/com_facebook_blue" />
 
         <ImageView
             android:id="@+id/chat_profile_pic_imageView"

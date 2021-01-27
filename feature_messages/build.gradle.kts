@@ -67,6 +67,8 @@ dependencies {
     implementation(LibraryDependency.ROOM_KTX)
     kapt(LibraryDependency.ROOM_COMPILER)
 
+    implementation(LibraryDependency.FACEBOOK_SDK)
+
     implementation(LibraryDependency.GLIDE)
     annotationProcessor(LibraryDependency.GLIDE_COMPILER)
 

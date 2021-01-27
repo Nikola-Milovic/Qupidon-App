@@ -72,6 +72,9 @@ dependencies {
     implementation(LibraryDependency.ROOM_KTX)
     kapt(LibraryDependency.ROOM_COMPILER)
 
+    //For visual stuff only
+    implementation("co.lujun:androidtagview:1.1.7")
+    
     implementation(project(":common"))
     implementation(project(":data"))
 

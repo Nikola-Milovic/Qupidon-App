@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,28 +9,48 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/profile_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="start"
             android:layout_weight="0.1"
+            android:background="@android:color/transparent"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
             android:src="@drawable/ic_profile"
             android:tint="@color/com_facebook_blue" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/preferences"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_weight="0.1"
-            android:src="@drawable/ic_preferences"
+            android:background="@android:color/transparent"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_messages"
             android:tint="@color/com_facebook_blue" />
+
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/line"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C0C0C0"
+        android:gravity="center_horizontal"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dip"
+        android:paddingRight="20dp" />
 
     <!-- Matches  -->
     <ScrollView
@@ -45,7 +66,8 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/images_viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"/>
+                android:layout_height="300dp"
+                android:padding="30dp" />
 
             <TextView
                 android:id="@+id/name_textView"
@@ -56,10 +78,45 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:id="@+id/bio_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My name is sadsadadsadadsd" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Interests"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <co.lujun.androidtagview.TagContainerLayout
+                    android:id="@+id/interests_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:padding="10dp"
+                    app:container_background_color="#9dc3f5"
+                    app:container_enable_drag="false"
+                    app:horizontal_interval="10dp"
+                    app:tag_clickable="true"
+                    app:tag_theme="random"
+
+                    app:vertical_interval="10dp" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
