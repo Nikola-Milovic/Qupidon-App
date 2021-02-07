@@ -1,6 +1,14 @@
 # Qupidon-App
 Dating application, register with Facebook, create new User, save your data to a custom backend, and your images to AWS S3 database. Match with potential partners and message them
 
+Three part system, the other two parts are
+
+Authentication, matches, general logic
+https://github.com/Nikola-Milovic/Qupidon-Server
+
+
+Chat messages
+https://github.com/Nikola-Milovic/Qupidon-Server-Chat
 
 
 # Potentional matches
